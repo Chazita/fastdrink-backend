@@ -2,6 +2,8 @@
 
 Este projecto es una ECommerce Rest Api escrita en C# usando .NET 6 y la solucion usada is similar a [jasontaylordev/ClearArchitecture](https://github.com/jasontaylordev/CleanArchitecture).
 
+[README in english](https://github.com/Chazita/fastdrink-backend/blob/main/README.md)
+
 ## :warning: Aviso :warning:
 
 Este projecto esta hecho por un amateur.
