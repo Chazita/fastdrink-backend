@@ -10,5 +10,5 @@ public class EnergyDrinkDetails : BaseDetails
 
     public bool Dietetics { get; set; }
 
-    public string Flavored { get; set; }
+    public string Flavor { get; set; }
 }

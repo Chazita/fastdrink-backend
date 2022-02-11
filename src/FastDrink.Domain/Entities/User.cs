@@ -36,6 +36,7 @@ public class User : AuditableEntity
     {
         return new User
         {
+            Id = int.Parse(p.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value),
             Email = p.Claims.Single(c => c.Type == ClaimTypes.Email).Value,
             Role = new Role
             {
