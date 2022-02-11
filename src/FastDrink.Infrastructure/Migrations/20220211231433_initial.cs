@@ -196,7 +196,7 @@ namespace FastDrink.Infrastructure.Migrations
                     NonAlcoholic = table.Column<bool>(type: "bit", nullable: false),
                     Energizing = table.Column<bool>(type: "bit", nullable: false),
                     Dietetics = table.Column<bool>(type: "bit", nullable: false),
-                    Flavored = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Flavor = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,7 +253,7 @@ namespace FastDrink.Infrastructure.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Flavored = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Flavor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Dietetics = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

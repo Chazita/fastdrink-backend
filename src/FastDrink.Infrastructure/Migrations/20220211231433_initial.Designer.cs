@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastDrink.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220124222531_initial")]
+    [Migration("20220211231433_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,7 +147,7 @@ namespace FastDrink.Infrastructure.Migrations
                     b.Property<bool>("Energizing")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Flavored")
+                    b.Property<string>("Flavor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -345,7 +345,7 @@ namespace FastDrink.Infrastructure.Migrations
                     b.Property<bool>("Dietetics")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Flavored")
+                    b.Property<string>("Flavor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -446,46 +446,38 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.AlcoholDetails", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Product", "Product")
+                    b.HasOne("FastDrink.Domain.Entities.Product", null)
                         .WithOne("AlcoholDetails")
                         .HasForeignKey("FastDrink.Domain.Entities.AlcoholDetails", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.BeerDetails", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Product", "Product")
+                    b.HasOne("FastDrink.Domain.Entities.Product", null)
                         .WithOne("BeerDetails")
                         .HasForeignKey("FastDrink.Domain.Entities.BeerDetails", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.EnergyDrinkDetails", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Product", "Product")
+                    b.HasOne("FastDrink.Domain.Entities.Product", null)
                         .WithOne("EnergyDrinkDetails")
                         .HasForeignKey("FastDrink.Domain.Entities.EnergyDrinkDetails", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.FlavorDetails", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Product", "Product")
+                    b.HasOne("FastDrink.Domain.Entities.Product", null)
                         .WithOne("FlavorDetails")
                         .HasForeignKey("FastDrink.Domain.Entities.FlavorDetails", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.Order", b =>
@@ -574,13 +566,11 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.SodaDetails", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Product", "Product")
+                    b.HasOne("FastDrink.Domain.Entities.Product", null)
                         .WithOne("SodaDetails")
                         .HasForeignKey("FastDrink.Domain.Entities.SodaDetails", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.User", b =>
@@ -602,24 +592,20 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.WaterDetails", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Product", "Product")
+                    b.HasOne("FastDrink.Domain.Entities.Product", null)
                         .WithOne("WaterDetails")
                         .HasForeignKey("FastDrink.Domain.Entities.WaterDetails", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.WineDetails", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Product", "Product")
+                    b.HasOne("FastDrink.Domain.Entities.Product", null)
                         .WithOne("WineDetails")
                         .HasForeignKey("FastDrink.Domain.Entities.WineDetails", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.Address", b =>
