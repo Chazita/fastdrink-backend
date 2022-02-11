@@ -1,6 +1,8 @@
 ﻿using FastDrink.Application.Auth.Commands.CreateAdmin;
 using FastDrink.Application.Auth.Commands.CreateCustomer;
 using FastDrink.Application.Auth.Commands.Login;
+using FastDrink.Application.Auth.DTOs;
+using FastDrink.Application.Auth.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -46,12 +48,32 @@ public class AuthController : ControllerBase
         return NoContent();
     }
 
-    [HttpGet("check")]
+    [HttpGet("check-user")]
     [Authorize(Policy = "MustBeUser")]
-    public ActionResult Get()
+    public async Task<ActionResult<UserDto?>> CheckUser()
     {
-        var user = FastDrink.Domain.Entities.User.FromIdentity(User);
-        return Ok(user);
+        var user = Domain.Entities.User.FromIdentity(User);
+
+        var userInfo = await _mediator.Send(new GetUserBasicDataQuery
+        {
+            Id = user.Id
+        });
+
+        return Ok(userInfo);
+    }
+
+    [HttpGet("check-admin")]
+    [Authorize(Policy = "MustBeAdmin")]
+    public async Task<ActionResult<UserDto?>> CheckAdminUser()
+    {
+        var user = Domain.Entities.User.FromIdentity(User);
+
+        var userInfo = await _mediator.Send(new GetUserBasicDataQuery
+        {
+            Id = user.Id
+        });
+
+        return Ok(userInfo);
     }
 
     [HttpGet("log-out")]
@@ -63,7 +85,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<LoginResult>> Login(LoginCommand request)
+    public async Task<ActionResult> Login(LoginCommand request)
     {
         var result = await _mediator.Send(request);
 
