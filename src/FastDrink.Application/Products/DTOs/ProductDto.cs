@@ -29,4 +29,6 @@ public class ProductDto : IMapFrom<Product>
     public DateTime Created { get; set; }
 
     public DateTime? LastModified { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
 }
