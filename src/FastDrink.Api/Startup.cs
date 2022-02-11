@@ -35,7 +35,10 @@ namespace FastDrink.Api
             {
                 options.AddPolicy(CorsPolicyName, builder =>
                  {
-                     builder.WithOrigins(Configuration["CorsConfig:Customer"], Configuration["CorsConfig:Admin"]);
+                     builder.WithOrigins(Configuration["CorsConfig:Customer"], Configuration["CorsConfig:Admin"])
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
                  });
             });
 
@@ -59,9 +62,9 @@ namespace FastDrink.Api
 
             app.UseCookiePolicy(new CookiePolicyOptions
             {
-                MinimumSameSitePolicy = SameSiteMode.Lax,
+                MinimumSameSitePolicy = SameSiteMode.None,
                 HttpOnly = HttpOnlyPolicy.Always,
-                Secure = CookieSecurePolicy.None
+                Secure = CookieSecurePolicy.Always
             });
             app.UseSecureJwt();
 
