@@ -1,10 +1,7 @@
-﻿using FastDrink.Application.BaseTypes.Commands;
-using FastDrink.Application.BaseTypes.Queries;
-using FastDrink.Application.Common.Models;
+﻿using FastDrink.Application.BaseTypes.Queries;
 using FastDrink.Domain.Common;
 using FastDrink.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastDrink.Api.Controllers;
@@ -46,50 +43,52 @@ public class CategoryController : ControllerBase
         return Ok(category);
     }
 
-    [HttpPost]
-    [Authorize(Policy = "MustBeAdmin")]
-    public async Task<ActionResult<Result>> CreateCategory([FromBody] CreateBaseTypeCommand<Category> command)
-    {
-        var result = await _mediator.Send(command);
+    // It's no design to be able to create, update or delete.
 
-        if (!result.Succeeded)
-        {
-            return BadRequest(result);
-        }
+    //[HttpPost]
+    //[Authorize(Policy = "MustBeAdmin")]
+    //public async Task<ActionResult<Result>> CreateCategory([FromBody] CreateBaseTypeCommand<Category> command)
+    //{
+    //    var result = await _mediator.Send(command);
 
-        return NoContent();
-    }
+    //    if (!result.Succeeded)
+    //    {
+    //        return BadRequest(result);
+    //    }
 
-    [HttpPut]
-    [Authorize(Policy = "MustBeAdmin")]
-    public async Task<ActionResult<Result>> UpdateCategory([FromBody] UpdateBaseTypeCommand<Category> command)
-    {
-        var result = await _mediator.Send(command);
+    //    return NoContent();
+    //}
 
-        if (!result.Succeeded)
-        {
-            return BadRequest(result);
-        }
+    //[HttpPut]
+    //[Authorize(Policy = "MustBeAdmin")]
+    //public async Task<ActionResult<Result>> UpdateCategory([FromBody] UpdateBaseTypeCommand<Category> command)
+    //{
+    //    var result = await _mediator.Send(command);
 
-        return NoContent();
-    }
+    //    if (!result.Succeeded)
+    //    {
+    //        return BadRequest(result);
+    //    }
 
-    [HttpDelete("{id}")]
-    [Authorize(Policy = "MustBeAdmin")]
-    public async Task<ActionResult<Result>> DeleteCategory(int id)
-    {
-        var category = new DeleteBaseTypeCommand<Category>
-        {
-            Id = id
-        };
+    //    return NoContent();
+    //}
 
-        var result = await _mediator.Send(category);
+    //[HttpDelete("{id}")]
+    //[Authorize(Policy = "MustBeAdmin")]
+    //public async Task<ActionResult<Result>> DeleteCategory(int id)
+    //{
+    //    var category = new DeleteBaseTypeCommand<Category>
+    //    {
+    //        Id = id
+    //    };
 
-        if (!result.Succeeded)
-        {
-            return BadRequest(result);
-        }
+    //    var result = await _mediator.Send(category);
 
-        return NoContent();
-    }
+    //    if (!result.Succeeded)
+    //    {
+    //        return BadRequest(result);
+    //    }
+
+    //    return NoContent();
+    //}
 }
