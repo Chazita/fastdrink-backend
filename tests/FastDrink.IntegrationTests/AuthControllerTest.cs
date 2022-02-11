@@ -1,4 +1,6 @@
-﻿using FastDrink.Application.Auth.Commands;
+﻿using FastDrink.Application.Auth.Commands.CreateAdmin;
+using FastDrink.Application.Auth.Commands.CreateCustomer;
+using FastDrink.Application.Auth.Commands.Login;
 using FastDrink.Application.Common.Models;
 using FastDrink.IntegrationTests.Fixtures;
 using FluentAssertions;

@@ -1,4 +1,4 @@
-﻿using FastDrink.Application.Auth.Commands;
+﻿using FastDrink.Application.Auth.Commands.Login;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
