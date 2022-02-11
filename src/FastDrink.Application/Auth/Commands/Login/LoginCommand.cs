@@ -1,4 +1,5 @@
-﻿using FastDrink.Application.Common.Interfaces;
+﻿using AutoMapper;
+using FastDrink.Application.Common.Interfaces;
 using FastDrink.Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,14 +16,15 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
 {
     private readonly IApplicationDbContext _context;
     private readonly IAuthService _authService;
-    public LoginCommandHandler(IApplicationDbContext context, IAuthService authService)
+
+    public LoginCommandHandler(IApplicationDbContext context, IAuthService authService, IMapper mapper)
     {
         _context = context;
         _authService = authService;
     }
+
     public async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-
         var user = await _context.User.Include(x => x.Role).FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
 
         if (user == null)
