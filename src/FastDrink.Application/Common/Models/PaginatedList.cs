@@ -19,7 +19,7 @@ public class PaginatedList<T>
 
     public bool HasPreviousPage => PageNumber > 1;
 
-    public bool HasNexyPage => PageNumber < TotalPages;
+    public bool HasNextPage => PageNumber < TotalPages;
 
     public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
     {
