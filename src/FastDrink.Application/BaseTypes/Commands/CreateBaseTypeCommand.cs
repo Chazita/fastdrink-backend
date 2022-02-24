@@ -24,7 +24,8 @@ public class CreateBaseTypeCommandHandler<T> : IRequestHandler<CreateBaseTypeCom
 
     public async Task<Result> Handle(CreateBaseTypeCommand<T> request, CancellationToken cancellationToken)
     {
-        var alreadyExist = await _set.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
+        var nameLower = request.Name.ToLower();
+        var alreadyExist = await _set.FirstOrDefaultAsync(x => x.Name == nameLower, cancellationToken);
 
         if (alreadyExist != null)
         {
@@ -34,9 +35,9 @@ public class CreateBaseTypeCommandHandler<T> : IRequestHandler<CreateBaseTypeCom
             });
         }
 
-        T? entity = (T)Activator.CreateInstance(typeof(T));
+        T? entity = Activator.CreateInstance(typeof(T)) as T;
 
-        entity.Name = request.Name;
+        entity.Name = nameLower;
 
         await _set.AddAsync(entity, cancellationToken);
 
