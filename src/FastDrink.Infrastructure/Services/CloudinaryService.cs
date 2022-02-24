@@ -23,7 +23,7 @@ public class CloudinaryService : ICloudinaryService
         throw new NotImplementedException();
     }
 
-    public async Task<ImageUploadResult[]> UploadPhotos(IList<IFormFile> photos)
+    public async Task<ImageUploadResult[]> UploadPhotos(IFormFileCollection photos)
     {
         List<Task<ImageUploadResult>> tasks = new();
         List<Stream> streamList = new();
