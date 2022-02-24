@@ -30,7 +30,7 @@ public class ProductController : ControllerBase
 
     [HttpGet("admin")]
     [Authorize(Policy = "MustBeAdmin")]
-    public async Task<ActionResult<PaginatedList<ProductDto>>> GetAllAdmin([FromQuery] GetAllProductsCustomerQuery query)
+    public async Task<ActionResult<PaginatedList<ProductDto>>> GetAllAdmin([FromQuery] GetAllProductsAdminQuery query)
     {
         return await _mediator.Send(query);
     }

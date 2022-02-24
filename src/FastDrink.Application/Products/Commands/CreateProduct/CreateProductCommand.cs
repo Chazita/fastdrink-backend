@@ -29,16 +29,16 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     public async Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         var categoryExist = await _context.Category.FirstOrDefaultAsync(x => x.Id == request.Product.CategoryId, cancellationToken);
-        var brandExist = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Product.CategoryId, cancellationToken);
-        var containerExist = await _context.Container.FirstOrDefaultAsync(x => x.Id == request.Product.CategoryId, cancellationToken);
+        var brandExist = await _context.Brands.FirstOrDefaultAsync(x => x.Id == request.Product.BrandId, cancellationToken);
+        var containerExist = await _context.Container.FirstOrDefaultAsync(x => x.Id == request.Product.ContainerId, cancellationToken);
 
         if (categoryExist == null || brandExist == null || containerExist == null)
         {
             return CreateProductResult.Failure(new[]
             {
-                $"The Category is {categoryExist}",
-                $"The Brand is {brandExist}",
-                $"The Container is {containerExist}",
+                $"The Category is {categoryExist.Id}",
+                $"The Brand is {brandExist.Id}",
+                $"The Container is {containerExist.Id}",
             });
         }
 
