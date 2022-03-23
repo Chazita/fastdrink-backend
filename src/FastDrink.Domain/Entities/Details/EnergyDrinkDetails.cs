@@ -1,4 +1,5 @@
 ﻿using FastDrink.Domain.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace FastDrink.Domain.Entities;
 
@@ -10,5 +11,6 @@ public class EnergyDrinkDetails : BaseDetails
 
     public bool Dietetics { get; set; }
 
+    [MaxLength(50)]
     public string Flavor { get; set; }
 }
