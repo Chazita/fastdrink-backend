@@ -1,6 +1,7 @@
 ﻿using FastDrink.Domain.Common;
 using FastDrink.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace FastDrink.Application.Common.Interfaces;
 
@@ -16,6 +17,8 @@ public interface IApplicationDbContext
     DbSet<Container> Container { get; }
     DbSet<Category> Category { get; }
     DbSet<Brand> Brands { get; }
+
+    EntityEntry Entry(object entity);
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

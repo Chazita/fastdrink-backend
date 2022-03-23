@@ -6,5 +6,5 @@ namespace FastDrink.Application.Common.Interfaces;
 public interface ICloudinaryService
 {
     Task<ImageUploadResult[]> UploadPhotos(IFormFileCollection photos);
-    Task DeletePhotos(string photoId);
+    Task<DeletionResult[]> DeletePhotos(List<string> photoId);
 }
