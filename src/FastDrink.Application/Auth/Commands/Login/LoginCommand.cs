@@ -8,8 +8,8 @@ namespace FastDrink.Application.Auth.Commands.Login;
 
 public class LoginCommand : IRequest<LoginResult>
 {
-    public string Email { get; set; }
-    public string Password { get; set; }
+    public string Email { get; set; } = "";
+    public string Password { get; set; } = "";
 }
 
 public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
@@ -29,10 +29,9 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
 
         if (user == null)
         {
-            IEnumerable<string> errors = new[]
-            {
-                "User email doesn't exist"
-            };
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Correo/Contraseña", "No coindicen correo/contraseña.");
             return LoginResult.Failure(errors);
         }
 
@@ -40,10 +39,9 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
 
         if (!passwordMatch)
         {
-            IEnumerable<string> errors = new[]
-            {
-                "The email/password doesn't match"
-            };
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Correo/Contraseña", "No coindicen correo/contraseña.");
             return LoginResult.Failure(errors);
         }
 
@@ -53,7 +51,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
 
 public class LoginResult : Result
 {
-    public LoginResult(bool succeeded, IEnumerable<string> errors, string? token) : base(succeeded, errors)
+    public LoginResult(bool succeeded, IDictionary<string, string> errors, string? token) : base(succeeded, errors)
     {
         Token = token;
     }
@@ -62,10 +60,10 @@ public class LoginResult : Result
 
     public static LoginResult Success(string token)
     {
-        return new LoginResult(true, Array.Empty<string>(), token);
+        return new LoginResult(true, new Dictionary<string, string>(), token);
     }
 
-    public static new LoginResult Failure(IEnumerable<string> errors)
+    public static new LoginResult Failure(IDictionary<string, string> errors)
     {
         return new LoginResult(false, errors, null);
     }

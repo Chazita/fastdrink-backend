@@ -10,9 +10,9 @@ namespace FastDrink.Application.Products.Commands.CreateProduct;
 
 public class CreateProductCommand : IRequest<CreateProductResult>
 {
-    public CreateProductRequest Product { get; set; }
+    public CreateProductRequest Product { get; set; } = new();
 
-    public string EmailCreator { get; set; }
+    public string EmailCreator { get; set; } = "";
 
 }
 
@@ -34,12 +34,19 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
         if (categoryExist == null || brandExist == null || containerExist == null)
         {
-            return CreateProductResult.Failure(new[]
-            {
-                $"The Category is {categoryExist.Id}",
-                $"The Brand is {brandExist.Id}",
-                $"The Container is {containerExist.Id}",
-            });
+            Dictionary<string, string> errors = new();
+
+            if (categoryExist == null)
+                errors.Add("Categoria", "Dicha categoria no existe.");
+
+            if (brandExist == null)
+                errors.Add("Marca", "Dicha marca no existe.");
+
+            if (containerExist == null)
+                errors.Add("Contenedor", "Dicho contenedor no existe.");
+
+
+            return CreateProductResult.Failure(errors);
         }
 
         var product = new Product
@@ -83,7 +90,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
 public class CreateProductResult : Result
 {
-    public CreateProductResult(bool succeeded, IEnumerable<string> errors, int productId, BaseType category) : base(succeeded, errors)
+    public CreateProductResult(bool succeeded, IDictionary<string, string> errors, int productId, BaseType category) : base(succeeded, errors)
     {
         ProductId = productId;
         Category = category;
@@ -96,10 +103,10 @@ public class CreateProductResult : Result
 
     public static CreateProductResult Success(int productId, Category category)
     {
-        return new CreateProductResult(true, Array.Empty<string>(), productId, category);
+        return new CreateProductResult(true, new Dictionary<string, string>(), productId, category);
     }
 
-    public static new CreateProductResult Failure(IEnumerable<string> errors)
+    public static new CreateProductResult Failure(IDictionary<string, string> errors)
     {
         return new CreateProductResult(false, errors, 0, null);
     }

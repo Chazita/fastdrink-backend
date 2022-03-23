@@ -28,11 +28,14 @@ public class UpdateDetailsCommandHanlder<T> : IRequestHandler<UpdateDetailsComma
 
         if (entityExist == null)
         {
-            return Result.Failure(new[]
-            {
-                "Product don't exist"
-            });
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Producto", $"El product con el ID: {request.Entity.ProductId} no existe.");
+
+            return Result.Failure(errors);
         }
+
+        _context.Entry(entityExist).State = EntityState.Detached;
 
         _set.Update(request.Entity);
 

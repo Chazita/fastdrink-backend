@@ -33,10 +33,11 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
 
         if (userExist != null)
         {
-            return Result.Failure(new[]
-            {
-                "Email already register"
-            });
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Email", "Ya existe un usuario con este correo.");
+
+            return Result.Failure(errors);
         }
 
         var userSalt = _authService.GenerateSalt();

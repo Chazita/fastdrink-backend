@@ -33,12 +33,11 @@ public class CreateAdminCommandHandler : IRequestHandler<CreateAdminCommand, Res
 
         if (userExist != null)
         {
-            List<string> errors = new();
+            Dictionary<string, string> errors = new();
 
-            return Result.Failure(new[]
-            {
-                "Email already register"
-            });
+            errors.Add("Email", "Ya existe un usuario con este correo.");
+
+            return Result.Failure(errors);
         }
 
         var userSalt = _authService.GenerateSalt();

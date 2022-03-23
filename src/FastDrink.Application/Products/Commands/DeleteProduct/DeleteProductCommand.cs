@@ -24,10 +24,11 @@ public class DeleteProductCommandHanlder : IRequestHandler<DeleteProductCommand,
 
         if (product == null)
         {
-            return Result.Failure(new[]
-            {
-                "Product doesn't exist"
-            });
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Producto", "El producto no existe");
+
+            return Result.Failure(errors);
         }
 
         product.DeletedAt = DateTime.Now;

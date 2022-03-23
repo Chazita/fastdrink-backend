@@ -28,10 +28,10 @@ public class DeleteDetailsCommandHandler<T> : IRequestHandler<DeleteDetailsComma
 
         if (details == null)
         {
-            return Result.Failure(new[]
-            {
-                "Product don't exist"
-            });
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Producto", "Producto no existe.");
+            return Result.Failure(errors);
         }
 
         _set.Remove(details);

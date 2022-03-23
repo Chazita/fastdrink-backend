@@ -29,10 +29,10 @@ public class CreateBaseTypeCommandHandler<T> : IRequestHandler<CreateBaseTypeCom
 
         if (alreadyExist != null)
         {
-            return Result.Failure(new[]
-            {
-                $"Already exist a {typeof(T).Name} with the name {request.Name}."
-            });
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Nombre", $"Ya existe un {typeof(T).Name} con el nombre: {request.Name}.");
+            return Result.Failure(errors);
         }
 
         T? entity = Activator.CreateInstance(typeof(T)) as T;

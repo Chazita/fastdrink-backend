@@ -30,10 +30,11 @@ public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQuery, R
 
         if (product == null)
         {
-            return ResultProduct.Failure(new[]
-            {
-                "Product don't exist."
-            });
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Producto", $"El product con el ID: {request.Id} no existe.");
+
+            return ResultProduct.Failure(errors);
         }
 
         return ResultProduct.Success(product);
@@ -42,7 +43,7 @@ public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQuery, R
 
 public class ResultProduct : Result
 {
-    public ResultProduct(bool succeeded, IEnumerable<string> errors, ProductWithDetailsDto? product) : base(succeeded, errors)
+    public ResultProduct(bool succeeded, IDictionary<string, string> errors, ProductWithDetailsDto? product) : base(succeeded, errors)
     {
         Product = product;
     }
@@ -51,9 +52,9 @@ public class ResultProduct : Result
 
     public static ResultProduct Success(ProductWithDetailsDto product)
     {
-        return new ResultProduct(true, Array.Empty<string>(), product);
+        return new ResultProduct(true, new Dictionary<string, string>(), product);
     }
-    public static ResultProduct Failure(IEnumerable<string> errors)
+    public static ResultProduct Failure(IDictionary<string, string> errors)
     {
         return new ResultProduct(false, errors, null);
     }

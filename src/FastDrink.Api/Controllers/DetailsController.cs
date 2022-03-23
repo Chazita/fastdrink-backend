@@ -332,10 +332,9 @@ public class DetailsController : ControllerBase
                 break;
 
             default:
-                result = Result.Failure(new[]
-                {
-                    "Category doesn't exist"
-                });
+                Dictionary<string, string> errors = new();
+                errors.Add("Detalles", "Dicha categoria no esta definida.");
+                result = Result.Failure(errors);
                 break;
         }
 

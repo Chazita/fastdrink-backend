@@ -28,10 +28,10 @@ public class DeleteBaseTypeCommandHanlder<T> : IRequestHandler<DeleteBaseTypeCom
 
         if (entity == null)
         {
-            return Result.Failure(new[]
-            {
-                $"No exist a {typeof(T).Name} with the Id {request.Id}."
-            });
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Id", $"No existe un {typeof(T).Name} con el Id: {request.Id}.");
+            return Result.Failure(errors);
         }
 
         _set.Remove(entity);

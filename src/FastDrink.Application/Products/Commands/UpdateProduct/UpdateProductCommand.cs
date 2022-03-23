@@ -41,10 +41,11 @@ public class UpdateProductComandHanlder : IRequestHandler<UpdateProductCommand, 
 
         if (product == null)
         {
-            return Result.Failure(new[]
-            {
-                "Product don't exist."
-            });
+            Dictionary<string, string> errors = new();
+
+            errors.Add("Producto", $"El product con el ID: {request.Id} no existe.");
+
+            return Result.Failure(errors);
         }
 
         product.Name = request.Name;
