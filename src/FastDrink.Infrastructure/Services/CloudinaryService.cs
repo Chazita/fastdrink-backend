@@ -18,9 +18,23 @@ public class CloudinaryService : ICloudinaryService
             cloudinarySettings.ApiSecret);
     }
 
-    public Task DeletePhotos(string photoId)
+    public async Task<DeletionResult[]> DeletePhotos(List<string> photosIds)
     {
-        throw new NotImplementedException();
+        var cloudinary = new Cloudinary(_account);
+        List<Task<DeletionResult>> tasks = new();
+
+        foreach (var photoId in photosIds)
+        {
+            var deletionParams = new DeletionParams(photoId);
+
+            tasks.Add(cloudinary.DestroyAsync(deletionParams));
+        }
+
+        var deletionResults = await Task.WhenAll(tasks);
+
+        return deletionResults;
+
+
     }
 
     public async Task<ImageUploadResult[]> UploadPhotos(IFormFileCollection photos)
