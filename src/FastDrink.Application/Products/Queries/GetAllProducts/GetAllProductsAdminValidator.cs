@@ -7,9 +7,11 @@ public class GetAllProductsAdminValidator : AbstractValidator<GetAllProductsAdmi
     public GetAllProductsAdminValidator()
     {
         RuleFor(x => x.PageNumber)
+            .NotEmpty()
             .GreaterThanOrEqualTo(1);
 
         RuleFor(x => x.PageSize)
+            .NotEmpty()
             .GreaterThanOrEqualTo(1);
     }
 }
