@@ -1,6 +1,7 @@
 ﻿using FastDrink.Application.Common.Models;
 using FastDrink.Application.Products.Commands.CreateProduct;
 using FastDrink.Application.Products.Commands.DeleteProduct;
+using FastDrink.Application.Products.Commands.RevocerProduct;
 using FastDrink.Application.Products.Commands.UpdateProduct;
 using FastDrink.Application.Products.DTOs;
 using FastDrink.Application.Products.Queries;
@@ -88,9 +89,46 @@ public class ProductController : ControllerBase
 
     [HttpDelete("{id}")]
     [Authorize(Policy = "MustBeAdmin")]
-    public async Task<ActionResult<string[]>> DeleteProduct(int id)
+    /// This method set a date in DeleteAt in Product.
+    public async Task<ActionResult<string[]>> SoftDeleteProduct(int id)
     {
         var result = await _mediator.Send(new DeleteProductCommand
+        {
+            Id = id
+        });
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("hard-delete/{id}")]
+    [Authorize(Policy = "MustBeAdmin")]
+    /// This method remove the Product from the database.
+    public async Task<ActionResult> HardDeleteProduct(int id)
+    {
+        var result = await _mediator.Send(new HardDeleteProductCommand
+        {
+            Id = id
+        });
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        return NoContent();
+    }
+
+    [HttpPut("recover-product/{id}")]
+    [Authorize(Policy = "MustBeAdmin")]
+    /// Only recover products that hasn't be hard delete.
+    public async Task<ActionResult> RecoverProduct(int id)
+    {
+        var result = await _mediator.Send(new RecoverProductCommand
         {
             Id = id
         });
