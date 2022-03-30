@@ -1,6 +1,5 @@
 ﻿using FastDrink.Domain.Common;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 
 namespace FastDrink.Domain.Entities;
 
@@ -31,17 +30,4 @@ public class User : AuditableEntity
     public int? AddressId { get; set; }
 
     public Address? Address { get; set; }
-
-    public static User FromIdentity(ClaimsPrincipal p)
-    {
-        return new User
-        {
-            Id = int.Parse(p.Claims.Single(c => c.Type == ClaimTypes.NameIdentifier).Value),
-            Email = p.Claims.Single(c => c.Type == ClaimTypes.Email).Value,
-            Role = new Role
-            {
-                Name = p.Claims.Single(c => c.Type == ClaimTypes.Role).Value,
-            },
-        };
-    }
 }
