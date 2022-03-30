@@ -1,7 +1,9 @@
 ﻿using FastDrink.Application.Common.Models;
 using FastDrink.Application.Products.Commands;
+using FastDrink.Application.Products.DTOs.Details;
 using FastDrink.Application.Products.Queries;
 using FastDrink.Domain.Entities;
+using HashidsNet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,22 +15,28 @@ namespace FastDrink.Api.Controllers;
 [Authorize(Policy = "MustBeAdmin")]
 public class DetailsController : ControllerBase
 {
-
     private readonly IMediator _mediator;
+    private readonly IHashids _hashids;
 
-    public DetailsController(IMediator mediator)
+    public DetailsController(IMediator mediator, IHashids hashids)
     {
         _mediator = mediator;
+        _hashids = hashids;
     }
 
     #region Create Details
     [HttpPost("create-details-alcohol")]
-    public async Task<ActionResult> CreateDetailsAlcohol(AlcoholDetails alcoholDetails)
+    public async Task<ActionResult> CreateDetailsAlcohol(AlcoholDetailsDto alcoholDetails)
     {
+        var id = _hashids.Decode(alcoholDetails.ProductId)[0];
 
         var result = await _mediator.Send(new CreateDetailsCommand<AlcoholDetails>
         {
-            Entity = alcoholDetails,
+            Entity = new()
+            {
+                AlcoholContent = alcoholDetails.AlcoholContent,
+                ProductId = id,
+            },
         });
 
         if (!result.Succeeded)
@@ -40,12 +48,18 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPost("create-details-beer")]
-    public async Task<ActionResult> CreateDetailsBeer(BeerDetails beerDetails)
+    public async Task<ActionResult> CreateDetailsBeer(BeerDetailsDto beerDetails)
     {
+        var id = _hashids.Decode(beerDetails.ProductId)[0];
 
         var result = await _mediator.Send(new CreateDetailsCommand<BeerDetails>
         {
-            Entity = beerDetails,
+            Entity = new()
+            {
+                AlcoholContent = beerDetails.AlcoholContent,
+                ProductId = id,
+                Style = beerDetails.Style,
+            },
         });
 
         if (!result.Succeeded)
@@ -57,12 +71,20 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPost("create-details-energy-drink")]
-    public async Task<ActionResult> CreateDetailsEnergyDrink(EnergyDrinkDetails energyDrinkDetails)
+    public async Task<ActionResult> CreateDetailsEnergyDrink(EnergyDrinkDetailsDto energyDrinkDetails)
     {
+        var id = _hashids.Decode(energyDrinkDetails.ProductId)[0];
 
         var result = await _mediator.Send(new CreateDetailsCommand<EnergyDrinkDetails>
         {
-            Entity = energyDrinkDetails,
+            Entity = new()
+            {
+                Dietetics = energyDrinkDetails.Dietetics,
+                ProductId = id,
+                Energizing = energyDrinkDetails.Energizing,
+                Flavor = energyDrinkDetails.Flavor,
+                NonAlcoholic = energyDrinkDetails.NonAlcoholic
+            },
         });
 
         if (!result.Succeeded)
@@ -74,12 +96,17 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPost("create-details-flavor")]
-    public async Task<ActionResult> CreateDetailsEnergyDrink(FlavorDetails flavorDetails)
+    public async Task<ActionResult> CreateDetailsEnergyDrink(FlavorDetailsDto flavorDetails)
     {
+        var id = _hashids.Decode(flavorDetails.ProductId)[0];
 
         var result = await _mediator.Send(new CreateDetailsCommand<FlavorDetails>
         {
-            Entity = flavorDetails,
+            Entity = new()
+            {
+                Flavor = flavorDetails.Flavor,
+                ProductId = id
+            },
         });
 
         if (!result.Succeeded)
@@ -91,12 +118,18 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPost("create-details-soda")]
-    public async Task<ActionResult> CreateDetailsEnergyDrink(SodaDetails sodaDetails)
+    public async Task<ActionResult> CreateDetailsEnergyDrink(SodaDetailsDto sodaDetails)
     {
+        var id = _hashids.Decode(sodaDetails.ProductId)[0];
 
         var result = await _mediator.Send(new CreateDetailsCommand<SodaDetails>
         {
-            Entity = sodaDetails,
+            Entity = new()
+            {
+                Dietetics = sodaDetails.Dietetics,
+                ProductId = id,
+                Flavor = sodaDetails.Flavor
+            },
         });
 
         if (!result.Succeeded)
@@ -108,12 +141,18 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPost("create-details-water")]
-    public async Task<ActionResult> CreateDetailsEnergyDrink(WaterDetails waterDetails)
+    public async Task<ActionResult> CreateDetailsEnergyDrink(WaterDetailsDto waterDetails)
     {
+        var id = _hashids.Decode(waterDetails.ProductId)[0];
 
         var result = await _mediator.Send(new CreateDetailsCommand<WaterDetails>
         {
-            Entity = waterDetails,
+            Entity = new()
+            {
+                Gasified = waterDetails.Gasified,
+                ProductId = id,
+                LowInSodium = waterDetails.LowInSodium
+            },
         });
 
         if (!result.Succeeded)
@@ -125,12 +164,19 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPost("create-details-wine")]
-    public async Task<ActionResult> CreateDetailsEnergyDrink(WineDetails windDetails)
+    public async Task<ActionResult> CreateDetailsEnergyDrink(WineDetailsDto wineDetails)
     {
+        var id = _hashids.Decode(wineDetails.ProductId)[0];
 
         var result = await _mediator.Send(new CreateDetailsCommand<WineDetails>
         {
-            Entity = windDetails,
+            Entity = new()
+            {
+                AlcoholContent = wineDetails.AlcoholContent,
+                ProductId = id,
+                Style = wineDetails.Style,
+                Variety = wineDetails.Variety
+            },
         });
 
         if (!result.Succeeded)
@@ -144,12 +190,17 @@ public class DetailsController : ControllerBase
 
     #region Update Details
     [HttpPut("update-details-alcohol")]
-    public async Task<ActionResult> UpdateDetailsAlcohol(AlcoholDetails alcoholDetails)
+    public async Task<ActionResult> UpdateDetailsAlcohol(AlcoholDetailsDto alcoholDetails)
     {
+        var id = _hashids.Decode(alcoholDetails.ProductId)[0];
 
         var result = await _mediator.Send(new UpdateDetailsCommand<AlcoholDetails>
         {
-            Entity = alcoholDetails,
+            Entity = new()
+            {
+                AlcoholContent = alcoholDetails.AlcoholContent,
+                ProductId = id
+            },
         });
 
         if (!result.Succeeded)
@@ -161,12 +212,18 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPut("update-details-beer")]
-    public async Task<ActionResult> UpdateDetailsBeer(BeerDetails beerDetails)
+    public async Task<ActionResult> UpdateDetailsBeer(BeerDetailsDto beerDetails)
     {
+        var id = _hashids.Decode(beerDetails.ProductId)[0];
 
         var result = await _mediator.Send(new UpdateDetailsCommand<BeerDetails>
         {
-            Entity = beerDetails,
+            Entity = new()
+            {
+                AlcoholContent = beerDetails.AlcoholContent,
+                ProductId = id,
+                Style = beerDetails.Style,
+            },
         });
 
         if (!result.Succeeded)
@@ -178,12 +235,20 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPut("update-details-energy-drink")]
-    public async Task<ActionResult> UpdateDetailsEnergyDrink(EnergyDrinkDetails energyDrinkDetails)
+    public async Task<ActionResult> UpdateDetailsEnergyDrink(EnergyDrinkDetailsDto energyDrinkDetails)
     {
+        var id = _hashids.Decode(energyDrinkDetails.ProductId)[0];
 
         var result = await _mediator.Send(new UpdateDetailsCommand<EnergyDrinkDetails>
         {
-            Entity = energyDrinkDetails,
+            Entity = new()
+            {
+                Dietetics = energyDrinkDetails.Dietetics,
+                ProductId = id,
+                Energizing = energyDrinkDetails.Energizing,
+                Flavor = energyDrinkDetails.Flavor,
+                NonAlcoholic = energyDrinkDetails.NonAlcoholic
+            },
         });
 
         if (!result.Succeeded)
@@ -195,12 +260,17 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPut("update-details-flavor")]
-    public async Task<ActionResult> UpdateDetailsEnergyDrink(FlavorDetails flavorDetails)
+    public async Task<ActionResult> UpdateDetailsEnergyDrink(FlavorDetailsDto flavorDetails)
     {
+        var id = _hashids.Decode(flavorDetails.ProductId)[0];
 
         var result = await _mediator.Send(new UpdateDetailsCommand<FlavorDetails>
         {
-            Entity = flavorDetails,
+            Entity = new()
+            {
+                Flavor = flavorDetails.Flavor,
+                ProductId = id
+            },
         });
 
         if (!result.Succeeded)
@@ -212,12 +282,18 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPut("update-details-soda")]
-    public async Task<ActionResult> UpdateDetailsEnergyDrink(SodaDetails sodaDetails)
+    public async Task<ActionResult> UpdateDetailsEnergyDrink(SodaDetailsDto sodaDetails)
     {
+        var id = _hashids.Decode(sodaDetails.ProductId)[0];
 
         var result = await _mediator.Send(new UpdateDetailsCommand<SodaDetails>
         {
-            Entity = sodaDetails,
+            Entity = new()
+            {
+                Dietetics = sodaDetails.Dietetics,
+                ProductId = id,
+                Flavor = sodaDetails.Flavor
+            },
         });
 
         if (!result.Succeeded)
@@ -229,12 +305,18 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPut("update-details-water")]
-    public async Task<ActionResult> UpdateDetailsEnergyDrink(WaterDetails waterDetails)
+    public async Task<ActionResult> UpdateDetailsEnergyDrink(WaterDetailsDto waterDetails)
     {
+        var id = _hashids.Decode(waterDetails.ProductId)[0];
 
         var result = await _mediator.Send(new UpdateDetailsCommand<WaterDetails>
         {
-            Entity = waterDetails,
+            Entity = new()
+            {
+                Gasified = waterDetails.Gasified,
+                ProductId = id,
+                LowInSodium = waterDetails.LowInSodium
+            },
         });
 
         if (!result.Succeeded)
@@ -246,12 +328,19 @@ public class DetailsController : ControllerBase
     }
 
     [HttpPut("update-details-wine")]
-    public async Task<ActionResult> UpdateDetailsEnergyDrink(WineDetails windDetails)
+    public async Task<ActionResult> UpdateDetailsEnergyDrink(WineDetailsDto windDetails)
     {
+        var id = _hashids.Decode(windDetails.ProductId)[0];
 
         var result = await _mediator.Send(new UpdateDetailsCommand<WineDetails>
         {
-            Entity = windDetails,
+            Entity = new()
+            {
+                AlcoholContent = windDetails.AlcoholContent,
+                ProductId = id,
+                Style = windDetails.Style,
+                Variety = windDetails.Variety
+            },
         });
 
         if (!result.Succeeded)
@@ -264,11 +353,12 @@ public class DetailsController : ControllerBase
     #endregion
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteDetails(int id)
+    public async Task<ActionResult> DeleteDetails(string id)
     {
+        var numberId = _hashids.Decode(id)[0];
         var product = await _mediator.Send(new GetByIdProductQuery
         {
-            Id = id
+            Id = numberId
         });
 
         Result? result = null;
@@ -278,56 +368,56 @@ public class DetailsController : ControllerBase
             case "cerveza":
                 result = await _mediator.Send(new DeleteDetailsCommand<BeerDetails>
                 {
-                    Id = id
+                    Id = numberId
                 });
                 break;
 
             case "alcohol":
                 result = await _mediator.Send(new DeleteDetailsCommand<AlcoholDetails>
                 {
-                    Id = id
+                    Id = numberId
                 });
                 break;
 
             case "bebida_energizante":
                 result = await _mediator.Send(new DeleteDetailsCommand<EnergyDrinkDetails>
                 {
-                    Id = id
+                    Id = numberId
                 });
                 break;
 
             case "gaseosa":
                 result = await _mediator.Send(new DeleteDetailsCommand<SodaDetails>
                 {
-                    Id = id
+                    Id = numberId
                 });
                 break;
 
             case "agua":
                 result = await _mediator.Send(new DeleteDetailsCommand<WaterDetails>
                 {
-                    Id = id
+                    Id = numberId
                 });
                 break;
 
             case "vino":
                 result = await _mediator.Send(new DeleteDetailsCommand<WineDetails>
                 {
-                    Id = id
+                    Id = numberId
                 });
                 break;
 
             case "jugo":
                 result = await _mediator.Send(new DeleteDetailsCommand<FlavorDetails>
                 {
-                    Id = id
+                    Id = numberId
                 });
                 break;
 
             case "bebida_isotónica":
                 result = await _mediator.Send(new DeleteDetailsCommand<FlavorDetails>
                 {
-                    Id = id
+                    Id = numberId
                 });
                 break;
 

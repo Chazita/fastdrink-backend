@@ -1,6 +1,7 @@
 ﻿using FastDrink.Application.Common.Interfaces;
 using FastDrink.Application.Common.Settings;
 using FastDrink.Domain.Entities;
+using HashidsNet;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,10 +14,12 @@ namespace FastDrink.Infrastructure.Services;
 public class AuthService : IAuthService
 {
     private readonly JwtSettings _jwtSettings;
+    private readonly IHashids _hashids;
 
-    public AuthService(JwtSettings jwtSettings)
+    public AuthService(JwtSettings jwtSettings, IHashids hashids)
     {
         _jwtSettings = jwtSettings;
+        _hashids = hashids;
     }
 
     public byte[] GenerateSalt()
@@ -39,7 +42,7 @@ public class AuthService : IAuthService
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier,_hashids.Encode(user.Id)),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role,user.Role != null ? user.Role.Name : "" )
             }),

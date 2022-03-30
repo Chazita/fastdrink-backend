@@ -6,6 +6,8 @@ using FastDrink.Application.Products.Commands.UpdateProduct;
 using FastDrink.Application.Products.DTOs;
 using FastDrink.Application.Products.Queries;
 using FastDrink.Application.Products.Queries.GetAllProducts;
+using FastDrink.Application.Users.DTOs;
+using HashidsNet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,37 +19,65 @@ namespace FastDrink.Api.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IHashids _hashids;
 
-    public ProductController(IMediator mediator)
+    public ProductController(IMediator mediator, IHashids hashids)
     {
         _mediator = mediator;
+        _hashids = hashids;
     }
 
     [HttpGet]
     public async Task<ActionResult<PaginatedList<ProductDto>>> GetAll([FromQuery] GetAllProductsCustomerQuery query)
     {
-        return await _mediator.Send(query);
+        var result = await _mediator.Send(query);
+        if (result == null || result.Items == null)
+        {
+            return BadRequest();
+        }
+
+        result.Items = result.Items.Select(x =>
+        {
+            x.Id = _hashids.Encode(int.Parse(x.Id));
+            return x;
+        }).ToList();
+
+        return result;
     }
 
     [HttpGet("admin")]
     [Authorize(Policy = "MustBeAdmin")]
     public async Task<ActionResult<PaginatedList<ProductDto>>> GetAllAdmin([FromQuery] GetAllProductsAdminQuery query)
     {
-        return await _mediator.Send(query);
+        var result = await _mediator.Send(query);
+        if (result == null || result.Items == null)
+        {
+            return BadRequest();
+        }
+
+        result.Items = result.Items.Select(x =>
+        {
+            x.Id = _hashids.Encode(int.Parse(x.Id));
+            return x;
+        }).ToList();
+
+        return result;
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetByIdProduct(int id)
+    public async Task<ActionResult> GetByIdProduct(string id)
     {
         var result = await _mediator.Send(new GetByIdProductQuery
         {
-            Id = id
+            Id = _hashids.Decode(id)[0],
         });
 
-        if (!result.Succeeded)
+        if (result.Succeeded == false || result.Product == null)
         {
             return BadRequest(result.Errors);
         }
+
+        result.Product.Id = _hashids.Encode(int.Parse(result.Product.Id));
 
         return Ok(result.Product);
     }
@@ -56,7 +86,7 @@ public class ProductController : ControllerBase
     [Authorize(Policy = "MustBeAdmin")]
     public async Task<ActionResult<CreateProductResult>> CreateProduct([FromForm] CreateProductRequest request)
     {
-        var user = Domain.Entities.User.FromIdentity(User);
+        var user = UserClaims.GetUser(User);
 
         var product = new CreateProductCommand
         {
@@ -90,11 +120,11 @@ public class ProductController : ControllerBase
     [HttpDelete("{id}")]
     [Authorize(Policy = "MustBeAdmin")]
     /// This method set a date in DeleteAt in Product.
-    public async Task<ActionResult<string[]>> SoftDeleteProduct(int id)
+    public async Task<ActionResult<string[]>> SoftDeleteProduct(string id)
     {
         var result = await _mediator.Send(new DeleteProductCommand
         {
-            Id = id
+            Id = _hashids.Decode(id)[0],
         });
 
         if (!result.Succeeded)
@@ -108,11 +138,11 @@ public class ProductController : ControllerBase
     [HttpDelete("hard-delete/{id}")]
     [Authorize(Policy = "MustBeAdmin")]
     /// This method remove the Product from the database.
-    public async Task<ActionResult> HardDeleteProduct(int id)
+    public async Task<ActionResult> HardDeleteProduct(string id)
     {
         var result = await _mediator.Send(new HardDeleteProductCommand
         {
-            Id = id
+            Id = _hashids.Decode(id)[0],
         });
 
         if (!result.Succeeded)
@@ -126,11 +156,11 @@ public class ProductController : ControllerBase
     [HttpPut("recover-product/{id}")]
     [Authorize(Policy = "MustBeAdmin")]
     /// Only recover products that hasn't be hard delete.
-    public async Task<ActionResult> RecoverProduct(int id)
+    public async Task<ActionResult> RecoverProduct(string id)
     {
         var result = await _mediator.Send(new RecoverProductCommand
         {
-            Id = id
+            Id = _hashids.Decode(id)[0],
         });
 
         if (!result.Succeeded)

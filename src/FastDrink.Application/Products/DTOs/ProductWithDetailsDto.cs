@@ -1,4 +1,5 @@
 ﻿using FastDrink.Application.Common.Mappings;
+using FastDrink.Application.Products.DTOs.Details;
 using FastDrink.Domain.Common;
 using FastDrink.Domain.Entities;
 
@@ -6,9 +7,9 @@ namespace FastDrink.Application.Products.DTOs;
 
 public class ProductWithDetailsDto : IMapFrom<Product>
 {
-    public int Id { get; set; }
+    public string Id { get; set; } = "";
 
-    public string Name { get; set; }
+    public string Name { get; set; } = "";
 
     public float Price { get; set; }
 
@@ -33,12 +34,12 @@ public class ProductWithDetailsDto : IMapFrom<Product>
     public DateTime? DeletedAt { get; set; }
 
     #region Details Relations
-    public AlcoholDetails? AlcoholDetails { get; set; }
-    public BeerDetails? BeerDetails { get; set; }
-    public EnergyDrinkDetails? EnergyDrinkDetails { get; set; }
-    public FlavorDetails? FlavorDetails { get; set; }
-    public SodaDetails? SodaDetails { get; set; }
-    public WaterDetails? WaterDetails { get; set; }
-    public WineDetails? WineDetails { get; set; }
+    public AlcoholDetailsDto? AlcoholDetails { get; set; }
+    public BeerDetailsDto? BeerDetails { get; set; }
+    public EnergyDrinkDetailsDto? EnergyDrinkDetails { get; set; }
+    public FlavorDetailsDto? FlavorDetails { get; set; }
+    public SodaDetailsDto? SodaDetails { get; set; }
+    public WaterDetailsDto? WaterDetails { get; set; }
+    public WineDetailsDto? WineDetails { get; set; }
     #endregion
 }

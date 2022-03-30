@@ -3,6 +3,7 @@ using FastDrink.Application.Auth.Commands.CreateCustomer;
 using FastDrink.Application.Auth.Commands.Login;
 using FastDrink.Application.Auth.DTOs;
 using FastDrink.Application.Auth.Query;
+using FastDrink.Application.Users.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IConfiguration _configuration;
+
     public AuthController(IMediator mediator, IConfiguration configuration)
     {
         _mediator = mediator;
@@ -52,7 +54,7 @@ public class AuthController : ControllerBase
     [Authorize(Policy = "MustBeUser")]
     public async Task<ActionResult<UserDto?>> CheckUser()
     {
-        var user = Domain.Entities.User.FromIdentity(User);
+        var user = UserClaims.GetUser(User);
 
         var userInfo = await _mediator.Send(new GetUserBasicDataQuery
         {
@@ -66,7 +68,7 @@ public class AuthController : ControllerBase
     [Authorize(Policy = "MustBeAdmin")]
     public async Task<ActionResult<UserDto?>> CheckAdminUser()
     {
-        var user = Domain.Entities.User.FromIdentity(User);
+        var user = UserClaims.GetUser(User);
 
         var userInfo = await _mediator.Send(new GetUserBasicDataQuery
         {

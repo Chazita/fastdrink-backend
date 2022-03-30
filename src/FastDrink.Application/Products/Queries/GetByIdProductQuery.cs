@@ -26,7 +26,7 @@ public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQuery, R
     {
         var product = await _context.Products
             .ProjectTo<ProductWithDetailsDto>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == request.Id.ToString(), cancellationToken);
 
         if (product == null)
         {

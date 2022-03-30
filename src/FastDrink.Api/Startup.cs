@@ -2,6 +2,7 @@
 using FastDrink.Application;
 using FastDrink.Infrastructure;
 using FluentValidation.AspNetCore;
+using HashidsNet;
 using Microsoft.AspNetCore.CookiePolicy;
 using System.Text.Json.Serialization;
 
@@ -44,6 +45,7 @@ namespace FastDrink.Api
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            services.AddSingleton<IHashids>(_ => new Hashids(Configuration["Hashids"], 11));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
