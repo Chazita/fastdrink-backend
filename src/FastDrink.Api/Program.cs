@@ -8,6 +8,8 @@ public class Program
 {
     public async static Task Main(string[] args)
     {
+        var builder = new ConfigurationBuilder().AddCommandLine(args);
+        var config = builder.Build();
         var host = CreateHostBuilder(args).Build();
 
         using (var scope = host.Services.CreateScope())
@@ -25,9 +27,14 @@ public class Program
 
                 var authService = services.GetRequiredService<IAuthService>();
 
-                await ApplicationDbContextSeed.SeedDefaultUserAsync(context, authService);
-                await ApplicationDbContextSeed.SeedDefaultCategoriesAsync(context);
-                await ApplicationDbContextSeed.SeedDefaultContainersAsync(context);
+                await ApplicationDbContextSeeder.SeedDefaultUserAsync(context, authService);
+                await ApplicationDbContextSeeder.SeedDefaultCategoriesAsync(context);
+                await ApplicationDbContextSeeder.SeedDefaultContainersAsync(context);
+
+                if (config.GetSection("AddProduct").Value != null && bool.Parse(config.GetSection("AddProduct").Value))
+                {
+                    await ApplicationDbContextSeeder.SeedDefaultBrandsAsync(context);
+                }
             }
             catch (Exception ex)
             {
