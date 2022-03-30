@@ -2,9 +2,11 @@
 
 namespace FastDrink.Domain.Common;
 
-public abstract class BaseType
+public class BaseType
 {
+    [Key]
     public int Id { get; set; }
+
     [Required, MaxLength(100)]
     public string Name { get; set; }
 }

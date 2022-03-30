@@ -5,10 +5,6 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{623F0073-7DB3-4588-BE2C-B964CCA1FDC8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{810C9016-210C-4CB4-90F1-C0D2220E8C58}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastDrink.IntegrationTests", "tests\FastDrink.IntegrationTests\FastDrink.IntegrationTests.csproj", "{12A1E235-ECFD-4261-92F4-AFF4859A7342}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastDrink.Api", "src\FastDrink.Api\FastDrink.Api.csproj", "{B2407DE4-6665-4401-B8E8-73033BF16CA3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastDrink.Application", "src\FastDrink.Application\FastDrink.Application.csproj", "{0D14B6CB-1EAE-437C-9241-1E69D8BF3508}"
@@ -23,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{12A1E235-ECFD-4261-92F4-AFF4859A7342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12A1E235-ECFD-4261-92F4-AFF4859A7342}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12A1E235-ECFD-4261-92F4-AFF4859A7342}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12A1E235-ECFD-4261-92F4-AFF4859A7342}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B2407DE4-6665-4401-B8E8-73033BF16CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B2407DE4-6665-4401-B8E8-73033BF16CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2407DE4-6665-4401-B8E8-73033BF16CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,7 +40,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{12A1E235-ECFD-4261-92F4-AFF4859A7342} = {810C9016-210C-4CB4-90F1-C0D2220E8C58}
 		{B2407DE4-6665-4401-B8E8-73033BF16CA3} = {623F0073-7DB3-4588-BE2C-B964CCA1FDC8}
 		{0D14B6CB-1EAE-437C-9241-1E69D8BF3508} = {623F0073-7DB3-4588-BE2C-B964CCA1FDC8}
 		{8A4D37C9-7725-47AF-93F1-2CAF4A192084} = {623F0073-7DB3-4588-BE2C-B964CCA1FDC8}
