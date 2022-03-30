@@ -14,8 +14,9 @@ public class OrderProduct
 
     public Product? Product { get; set; }
 
+    [Required]
     [Range(0f, 100f)]
-    public float Discount { get; set; }
+    public float? Discount { get; set; }
 
     [Required]
     public int Quantity { get; set; }

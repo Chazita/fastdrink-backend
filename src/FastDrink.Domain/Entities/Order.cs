@@ -12,7 +12,6 @@ public class Order
     public User? User { get; set; }
 
     [Required]
-    [Range(0f, 100f)]
     public float TotalPrice { get; set; }
 
     [Required]
@@ -20,5 +19,5 @@ public class Order
 
     public Address? Address { get; set; }
 
-    public ICollection<Order> Orders { get; set; }
+    public ICollection<OrderProduct>? Products { get; set; }
 }
