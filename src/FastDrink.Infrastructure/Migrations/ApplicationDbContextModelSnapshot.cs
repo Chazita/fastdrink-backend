@@ -32,19 +32,23 @@ namespace FastDrink.Infrastructure.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("Province")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Street")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -185,9 +189,6 @@ namespace FastDrink.Infrastructure.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<float>("TotalPrice")
                         .HasColumnType("real");
 
@@ -197,8 +198,6 @@ namespace FastDrink.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("UserId");
 
@@ -213,10 +212,8 @@ namespace FastDrink.Infrastructure.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Discount")
+                    b.Property<float?>("Discount")
+                        .IsRequired()
                         .HasColumnType("real");
 
                     b.Property<float>("Price")
@@ -226,8 +223,6 @@ namespace FastDrink.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("AddressId");
 
                     b.HasIndex("ProductId");
 
@@ -492,10 +487,6 @@ namespace FastDrink.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FastDrink.Domain.Entities.Order", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("FastDrink.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -509,12 +500,8 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.OrderProduct", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Address", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("AddressId");
-
                     b.HasOne("FastDrink.Domain.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -614,8 +601,6 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.Address", b =>
                 {
-                    b.Navigation("Addresses");
-
                     b.Navigation("User");
                 });
 
@@ -636,7 +621,7 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.Order", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.Product", b =>
