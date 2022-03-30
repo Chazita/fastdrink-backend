@@ -24,7 +24,7 @@ public class CreateBaseTypeCommandHandler<T> : IRequestHandler<CreateBaseTypeCom
 
     public async Task<Result> Handle(CreateBaseTypeCommand<T> request, CancellationToken cancellationToken)
     {
-        var nameLower = request.Name.ToLower();
+        var nameLower = request.Name.Replace(" ", "_").ToLower();
         var alreadyExist = await _set.FirstOrDefaultAsync(x => x.Name == nameLower, cancellationToken);
 
         if (alreadyExist != null)

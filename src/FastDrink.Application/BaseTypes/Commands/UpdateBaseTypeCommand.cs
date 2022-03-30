@@ -35,7 +35,7 @@ public class UpdateBaseTypeCommandHandler<T> : IRequestHandler<UpdateBaseTypeCom
             return Result.Failure(errors);
         }
 
-        entity.Name = request.NewName.ToLower();
+        entity.Name = request.NewName.Replace(" ", "_").ToLower();
 
         await _context.SaveChangesAsync(cancellationToken);
 
