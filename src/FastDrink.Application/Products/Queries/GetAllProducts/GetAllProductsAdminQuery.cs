@@ -27,6 +27,7 @@ public class GetAllProductsAdminQueryHanlder : IRequestHandler<GetAllProductsAdm
     public async Task<PaginatedList<ProductDto>> Handle(GetAllProductsAdminQuery request, CancellationToken cancellationToken)
     {
         return await _context.Products
+            .OrderBy(x => x.Name)
             .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
     }

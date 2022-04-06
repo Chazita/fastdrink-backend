@@ -7,7 +7,6 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
     public UpdateProductValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThanOrEqualTo(1)
             .NotEmpty();
 
         RuleFor(x => x.Name)

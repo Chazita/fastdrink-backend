@@ -25,9 +25,12 @@ public class CloudinaryService : ICloudinaryService
 
         foreach (var photoId in photosIds)
         {
-            var deletionParams = new DeletionParams(photoId);
+            if (photoId != "noexist")
+            {
+                var deletionParams = new DeletionParams(photoId);
 
-            tasks.Add(cloudinary.DestroyAsync(deletionParams));
+                tasks.Add(cloudinary.DestroyAsync(deletionParams));
+            }
         }
 
         var deletionResults = await Task.WhenAll(tasks);

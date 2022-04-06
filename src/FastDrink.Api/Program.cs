@@ -34,6 +34,7 @@ public class Program
                 if (config.GetSection("AddProduct").Value != null && bool.Parse(config.GetSection("AddProduct").Value))
                 {
                     await ApplicationDbContextSeeder.SeedDefaultBrandsAsync(context);
+                    await ApplicationDbContextSeeder.SeedDefaultProductsAsync(context);
                 }
             }
             catch (Exception ex)

@@ -1,5 +1,6 @@
 ﻿using FastDrink.Application.Common.Interfaces;
 using FastDrink.Application.Common.Models;
+using HashidsNet;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +8,7 @@ namespace FastDrink.Application.Products.Commands.UpdateProduct;
 
 public class UpdateProductCommand : IRequest<Result>
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     public string Name { get; set; }
 
@@ -29,15 +30,18 @@ public class UpdateProductCommand : IRequest<Result>
 public class UpdateProductComandHanlder : IRequestHandler<UpdateProductCommand, Result>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IHashids _hashids;
 
-    public UpdateProductComandHanlder(IApplicationDbContext context)
+    public UpdateProductComandHanlder(IApplicationDbContext context, IHashids hashids)
     {
         _context = context;
+        _hashids = hashids;
     }
 
     public async Task<Result> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var intId = _hashids.Decode(request.Id)[0];
+        var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == intId, cancellationToken);
 
         if (product == null)
         {

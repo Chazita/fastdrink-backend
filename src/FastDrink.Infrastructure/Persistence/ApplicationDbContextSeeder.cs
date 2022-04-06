@@ -30,8 +30,8 @@ public static class ApplicationDbContextSeeder
 
         if (!context.User.Any())
         {
-            var adminRole = context.Role.FirstAsync(x => x.Name == "admin");
-            var customerRole = context.Role.FirstAsync(x => x.Name == "customer");
+            var adminRole = await context.Role.FirstAsync(x => x.Name == "admin");
+            var customerRole = await context.Role.FirstAsync(x => x.Name == "customer");
 
             var adminSalt = authService.GenerateSalt();
             context.User.Add(new User
@@ -128,5 +128,84 @@ public static class ApplicationDbContextSeeder
     public static async Task SeedDefaultProductsAsync(ApplicationDbContext context)
     {
         // Should seed products, product photos and product details.
+        if (!context.Products.Any())
+        {
+            var r = new StreamReader(@"Seeds/products.json");
+
+            var json = r.ReadToEnd();
+
+            var products = JsonSerializer.Deserialize<List<Product>>(json);
+
+            foreach (var product in products)
+            {
+                product.Created = DateTime.Now;
+                product.LastModified = DateTime.Now;
+                product.LastModifiedBy = "admin@admin.com";
+
+                product.Photos = null;
+                product.AlcoholDetails = null;
+                product.BeerDetails = null;
+                product.EnergyDrinkDetails = null;
+                product.FlavorDetails = null;
+                product.SodaDetails = null;
+                product.WaterDetails = null;
+                product.WineDetails = null;
+
+                context.Products.Add(product);
+            }
+
+            await context.SaveChangesAsync();
+
+            products = JsonSerializer.Deserialize<List<Product>>(json);
+
+            foreach (var product in products)
+            {
+                switch (product.CategoryId)
+                {
+                    case 1:
+                        context.BeerDetails.Add(product.BeerDetails);
+                        break;
+
+                    case 2:
+                        context.AlcoholDetails.Add(product.AlcoholDetails);
+                        break;
+
+                    case 3:
+                        context.EnergyDrinkDetails.Add(product.EnergyDrinkDetails);
+                        break;
+
+                    case 4:
+                        context.SodaDetails.Add(product.SodaDetails);
+                        break;
+
+                    case 5:
+                        context.WaterDetails.Add(product.WaterDetails);
+                        break;
+
+                    case 6:
+                        context.WineDetails.Add(product.WineDetails);
+                        break;
+
+                    case 7:
+                        context.FlavorDetails.Add(product.FlavorDetails);
+                        break;
+
+                    case 8:
+                        context.FlavorDetails.Add(product.FlavorDetails);
+                        break;
+                    default:
+                        break;
+                }
+
+                foreach (var photo in product.Photos)
+                {
+                    context.ProductPhoto.Add(photo);
+                }
+            }
+
+            await context.SaveChangesAsync();
+
+            r.Close();
+        }
     }
 }
