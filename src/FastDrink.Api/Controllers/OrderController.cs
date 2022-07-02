@@ -1,7 +1,7 @@
 ﻿using FastDrink.Application.Orders.Commands;
 using FastDrink.Application.Orders.DTOs;
+using FastDrink.Application.Orders.Queries;
 using FastDrink.Application.Users.DTOs;
-using FastDrink.Application.Users.Queries.GetIdAddress;
 using HashidsNet;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -28,41 +28,57 @@ public class OrderController : ControllerBase
     {
         var user = UserClaims.GetUser(User);
         var userId = _hashids.Decode(user.Id)[0];
-        int addressId;
 
-        if (request.Address == null)
+        var address = await _mediator.Send(request.Address);
+
+        if (!address.Succeeded)
         {
-            var address = await _mediator.Send(new GetIdAddressQuery
+            return BadRequest();
+        }
+
+        var result = await _mediator.Send(
+            new CreateOrderCommand
             {
-                UserId = userId
+                AddressId = address.AddressId,
+                UserId = userId,
+                OrderProducts = request.OrderProducts
             });
 
-            if (!address.Succeeded || address.Address == null)
-            {
-                return BadRequest(address.Errors);
-            }
+        return Ok(result);
+    }
 
-            addressId = address.Address.Id;
-        }
-        else
+    [HttpGet("my-orders")]
+    [Authorize(Policy = "MustBeUser")]
+    public async Task<ActionResult> GetMyOrders([FromQuery] int? PageNumber)
+    {
+        var userId = _hashids.Decode(UserClaims.GetUser(User).Id)[0];
+
+        var orders = await _mediator.Send(new GetMyOrdersQuery
         {
-            var address = await _mediator.Send(request.Address);
-
-            if (!address.Succeeded)
-            {
-                return BadRequest();
-            }
-
-            addressId = address.AddressId;
-        }
-
-        var result = await _mediator.Send(new CreateOrderCommand
-        {
-            AddressId = addressId,
             UserId = userId,
-            OrderProducts = request.OrderProducts
+            PageNumber = PageNumber == null ? 1 : (int)PageNumber
         });
 
-        return Ok(result);
+        foreach (var order in orders.Items)
+        {
+            order.Id = _hashids.Encode(int.Parse(order.Id));
+            order.Address.Id = _hashids.Encode(int.Parse(order.Address.Id));
+        }
+
+        return Ok(orders);
+    }
+
+    [HttpGet("orders")]
+    [Authorize(Policy = "MustBeAdmin")]
+    public async Task<ActionResult> GetOrders([FromQuery] GetOrdersQuery query)
+    {
+        var orders = await _mediator.Send(query);
+
+        foreach (var order in orders.Items)
+        {
+            order.User.Id = _hashids.Encode(int.Parse(order.User.Id));
+        }
+
+        return Ok(orders);
     }
 }

@@ -277,7 +277,7 @@ namespace FastDrink.Infrastructure.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<float>("Volumen")
+                    b.Property<float>("Volume")
                         .HasColumnType("real");
 
                     b.HasKey("Id");

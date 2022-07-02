@@ -18,7 +18,7 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
             .GreaterThanOrEqualTo(0)
             .NotEmpty();
 
-        RuleFor(x => x.Volumen)
+        RuleFor(x => x.Volume)
             .GreaterThanOrEqualTo(1)
             .NotEmpty();
 

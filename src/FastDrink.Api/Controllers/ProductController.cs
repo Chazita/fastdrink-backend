@@ -28,7 +28,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<ProductDto>>> GetAll([FromQuery] GetAllProductsCustomerQuery query)
+    public async Task<ActionResult> GetAll([FromQuery] GetAllProductsCustomerQuery query)
     {
         var result = await _mediator.Send(query);
         if (result == null || result.Items == null)
@@ -36,13 +36,16 @@ public class ProductController : ControllerBase
             return BadRequest();
         }
 
-        result.Items = result.Items.Select(x =>
-        {
-            x.Id = _hashids.Encode(int.Parse(x.Id));
-            return x;
-        }).ToList();
+        result.Items = result.Items
+            .Select(
+                x =>
+                {
+                    x.Id = _hashids.Encode(int.Parse(x.Id));
+                    return x;
+                })
+            .ToList();
 
-        return result;
+        return Ok(result);
     }
 
     [HttpGet("admin")]
@@ -55,22 +58,22 @@ public class ProductController : ControllerBase
             return BadRequest();
         }
 
-        result.Items = result.Items.Select(x =>
-        {
-            x.Id = _hashids.Encode(int.Parse(x.Id));
-            return x;
-        }).ToList();
+        result.Items = result.Items
+            .Select(
+                x =>
+                {
+                    x.Id = _hashids.Encode(int.Parse(x.Id));
+                    return x;
+                })
+            .ToList();
 
         return result;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("get-details/{id}")]
     public async Task<ActionResult> GetByIdProduct(string id)
     {
-        var result = await _mediator.Send(new GetByIdProductQuery
-        {
-            Id = _hashids.Decode(id)[0],
-        });
+        var result = await _mediator.Send(new GetByIdProductQuery { Id = _hashids.Decode(id)[0], });
 
         if (result.Succeeded == false || result.Product == null)
         {
@@ -88,11 +91,7 @@ public class ProductController : ControllerBase
     {
         var user = UserClaims.GetUser(User);
 
-        var product = new CreateProductCommand
-        {
-            Product = request,
-            EmailCreator = user.Email,
-        };
+        var product = new CreateProductCommand { Product = request, EmailCreator = user.Email, };
         var result = await _mediator.Send(product);
 
         if (!result.Succeeded)
@@ -122,10 +121,7 @@ public class ProductController : ControllerBase
     /// This method set a date in DeleteAt in Product.
     public async Task<ActionResult<string[]>> SoftDeleteProduct(string id)
     {
-        var result = await _mediator.Send(new DeleteProductCommand
-        {
-            Id = _hashids.Decode(id)[0],
-        });
+        var result = await _mediator.Send(new DeleteProductCommand { Id = _hashids.Decode(id)[0], });
 
         if (!result.Succeeded)
         {
@@ -140,10 +136,7 @@ public class ProductController : ControllerBase
     /// This method remove the Product from the database.
     public async Task<ActionResult> HardDeleteProduct(string id)
     {
-        var result = await _mediator.Send(new HardDeleteProductCommand
-        {
-            Id = _hashids.Decode(id)[0],
-        });
+        var result = await _mediator.Send(new HardDeleteProductCommand { Id = _hashids.Decode(id)[0], });
 
         if (!result.Succeeded)
         {
@@ -158,10 +151,7 @@ public class ProductController : ControllerBase
     /// Only recover products that hasn't be hard delete.
     public async Task<ActionResult> RecoverProduct(string id)
     {
-        var result = await _mediator.Send(new RecoverProductCommand
-        {
-            Id = _hashids.Decode(id)[0],
-        });
+        var result = await _mediator.Send(new RecoverProductCommand { Id = _hashids.Decode(id)[0], });
 
         if (!result.Succeeded)
         {

@@ -9,7 +9,7 @@ namespace FastDrink.Application.Auth.Query;
 
 public class GetUserBasicDataQuery : IRequest<UserDto?>
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 }
 
 public class GetUserBasicDataQueryHandler : IRequestHandler<GetUserBasicDataQuery, UserDto?>

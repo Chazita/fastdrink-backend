@@ -8,13 +8,13 @@ namespace FastDrink.Application.Products.Commands.UpdateProduct;
 
 public class UpdateProductCommand : IRequest<Result>
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     public float Price { get; set; }
 
-    public float Volumen { get; set; }
+    public float Volume { get; set; }
 
     public int Stock { get; set; }
 
@@ -27,12 +27,12 @@ public class UpdateProductCommand : IRequest<Result>
     public int BrandId { get; set; }
 }
 
-public class UpdateProductComandHanlder : IRequestHandler<UpdateProductCommand, Result>
+public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result>
 {
     private readonly IApplicationDbContext _context;
     private readonly IHashids _hashids;
 
-    public UpdateProductComandHanlder(IApplicationDbContext context, IHashids hashids)
+    public UpdateProductCommandHandler(IApplicationDbContext context, IHashids hashids)
     {
         _context = context;
         _hashids = hashids;
@@ -54,7 +54,7 @@ public class UpdateProductComandHanlder : IRequestHandler<UpdateProductCommand, 
 
         product.Name = request.Name;
         product.Price = request.Price;
-        product.Volumen = request.Volumen;
+        product.Volume = request.Volume;
         product.Stock = request.Stock;
         product.Discount = request.Discount;
         product.CategoryId = request.CategoryId;

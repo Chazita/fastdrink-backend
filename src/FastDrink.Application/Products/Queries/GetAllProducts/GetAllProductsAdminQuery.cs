@@ -14,11 +14,11 @@ public class GetAllProductsAdminQuery : IRequest<PaginatedList<ProductDto>>
     public int PageSize { get; set; } = 10;
 }
 
-public class GetAllProductsAdminQueryHanlder : IRequestHandler<GetAllProductsAdminQuery, PaginatedList<ProductDto>>
+public class GetAllProductsAdminQueryHandler : IRequestHandler<GetAllProductsAdminQuery, PaginatedList<ProductDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
-    public GetAllProductsAdminQueryHanlder(IApplicationDbContext context, IMapper mapper)
+    public GetAllProductsAdminQueryHandler(IApplicationDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

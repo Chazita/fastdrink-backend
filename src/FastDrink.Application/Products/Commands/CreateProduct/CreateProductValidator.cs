@@ -26,7 +26,7 @@ public class CreateProductValidator : AbstractValidator<CreateProductCommand>
             .GreaterThanOrEqualTo(0)
             .NotEmpty();
 
-        RuleFor(x => x.Product.Volumen)
+        RuleFor(x => x.Product.Volume)
             .GreaterThanOrEqualTo(1)
             .NotEmpty();
 

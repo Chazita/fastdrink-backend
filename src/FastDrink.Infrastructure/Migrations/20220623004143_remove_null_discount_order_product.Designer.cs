@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FastDrink.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220303224054_Add Contrains In Details")]
-    partial class AddContrainsInDetails
+    [Migration("20220623004143_remove_null_discount_order_product")]
+    partial class remove_null_discount_order_product
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -34,19 +34,23 @@ namespace FastDrink.Infrastructure.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("Province")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Street")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -187,9 +191,6 @@ namespace FastDrink.Infrastructure.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<float>("TotalPrice")
                         .HasColumnType("real");
 
@@ -199,8 +200,6 @@ namespace FastDrink.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("UserId");
 
@@ -215,10 +214,7 @@ namespace FastDrink.Infrastructure.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Discount")
+                    b.Property<float?>("Discount")
                         .HasColumnType("real");
 
                     b.Property<float>("Price")
@@ -228,8 +224,6 @@ namespace FastDrink.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("AddressId");
 
                     b.HasIndex("ProductId");
 
@@ -494,10 +488,6 @@ namespace FastDrink.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FastDrink.Domain.Entities.Order", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("FastDrink.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -511,12 +501,8 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.OrderProduct", b =>
                 {
-                    b.HasOne("FastDrink.Domain.Entities.Address", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("AddressId");
-
                     b.HasOne("FastDrink.Domain.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -616,8 +602,6 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.Address", b =>
                 {
-                    b.Navigation("Addresses");
-
                     b.Navigation("User");
                 });
 
@@ -638,7 +622,7 @@ namespace FastDrink.Infrastructure.Migrations
 
             modelBuilder.Entity("FastDrink.Domain.Entities.Order", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("FastDrink.Domain.Entities.Product", b =>

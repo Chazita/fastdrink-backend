@@ -8,7 +8,7 @@ namespace FastDrink.Application.Products.Commands;
 
 public class CreateDetailsCommand<T> : IRequest<Result> where T : BaseDetails
 {
-    public T Entity { get; set; }
+    public T Entity { get; set; } = null!;
 }
 
 public class CreateDetailsCommandHandler<T> : IRequestHandler<CreateDetailsCommand<T>, Result> where T : BaseDetails

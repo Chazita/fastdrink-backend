@@ -6,5 +6,5 @@ namespace FastDrink.Domain.Entities;
 public class FlavorDetails : BaseDetails
 {
     [MaxLength(50)]
-    public string Flavor { get; set; }
+    public string Flavor { get; set; } = string.Empty;
 }

@@ -8,13 +8,13 @@ public class Product : AuditableEntity
     public int Id { get; set; }
 
     [Required, MaxLength(100)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [Required]
     public float Price { get; set; }
 
     [Required]
-    public float Volumen { get; set; }
+    public float Volume { get; set; }
 
     [Required]
     public int Stock { get; set; }
@@ -39,7 +39,7 @@ public class Product : AuditableEntity
 
     public DateTime? DeletedAt { get; set; }
 
-    public string LastModifiedBy { get; set; }
+    public string LastModifiedBy { get; set; } = string.Empty;
 
     #region Details Relations
     public AlcoholDetails? AlcoholDetails { get; set; }

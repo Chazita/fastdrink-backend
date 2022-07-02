@@ -56,7 +56,7 @@ public static class DependencyInjection
     private static void AddRegisterProductDetails<T>(this IServiceCollection services) where T : BaseDetails
     {
         services.AddScoped(typeof(IRequestHandler<CreateDetailsCommand<T>, Result>), typeof(CreateDetailsCommandHandler<T>));
-        services.AddScoped(typeof(IRequestHandler<UpdateDetailsCommand<T>, Result>), typeof(UpdateDetailsCommandHanlder<T>));
+        services.AddScoped(typeof(IRequestHandler<UpdateDetailsCommand<T>, Result>), typeof(UpdateDetailsCommandHandler<T>));
         services.AddScoped(typeof(IRequestHandler<DeleteDetailsCommand<T>, Result>), typeof(DeleteDetailsCommandHandler<T>));
     }
 }

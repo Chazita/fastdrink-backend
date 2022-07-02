@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastDrink.Domain", "src\Fas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastDrink.Infrastructure", "src\FastDrink.Infrastructure\FastDrink.Infrastructure.csproj", "{8422ECFC-2D25-4E61-84F1-8B550010E0F0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9886BE81-8D35-46A2-BACE-A42FF2DDD806}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastDrink.IntegrationTest", "test\FastDrink.IntegrationTest\FastDrink.IntegrationTest.csproj", "{7977A0FD-B949-47C2-B143-80BFE08B10CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{8422ECFC-2D25-4E61-84F1-8B550010E0F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8422ECFC-2D25-4E61-84F1-8B550010E0F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8422ECFC-2D25-4E61-84F1-8B550010E0F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7977A0FD-B949-47C2-B143-80BFE08B10CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7977A0FD-B949-47C2-B143-80BFE08B10CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7977A0FD-B949-47C2-B143-80BFE08B10CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7977A0FD-B949-47C2-B143-80BFE08B10CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +52,7 @@ Global
 		{0D14B6CB-1EAE-437C-9241-1E69D8BF3508} = {623F0073-7DB3-4588-BE2C-B964CCA1FDC8}
 		{8A4D37C9-7725-47AF-93F1-2CAF4A192084} = {623F0073-7DB3-4588-BE2C-B964CCA1FDC8}
 		{8422ECFC-2D25-4E61-84F1-8B550010E0F0} = {623F0073-7DB3-4588-BE2C-B964CCA1FDC8}
+		{7977A0FD-B949-47C2-B143-80BFE08B10CA} = {9886BE81-8D35-46A2-BACE-A42FF2DDD806}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {07E5CF2D-1F29-4624-AFD0-D74DDF59FE2E}

@@ -2,6 +2,7 @@
 using FastDrink.Application.Common.Models;
 using FastDrink.Application.Orders.DTOs;
 using FastDrink.Domain.Entities;
+using HashidsNet;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,16 +21,25 @@ public class CreateOrderCommand : IRequest<ResultOrderCreate>
 public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, ResultOrderCreate>
 {
     private readonly IApplicationDbContext _dbContext;
+    private readonly IHashids _hashids;
 
-    public CreateOrderCommandHandler(IApplicationDbContext dbContext)
+    public CreateOrderCommandHandler(IApplicationDbContext dbContext, IHashids hashids)
     {
         _dbContext = dbContext;
+        _hashids = hashids;
     }
 
     public async Task<ResultOrderCreate> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        var ids = request.OrderProducts.Select(x => x.ProductId).ToList();
-        var products = await _dbContext.Products.Where(p => ids.Contains(p.Id)).ToListAsync(cancellationToken);
+        var idStrings = request.OrderProducts.Select(x => x.ProductId).ToList();
+        List<int> idsNumber = new();
+
+        foreach (string id in idStrings)
+        {
+            idsNumber.Add(_hashids.Decode(id)[0]);
+        }
+
+        var products = await _dbContext.Products.Where(p => idsNumber.Contains(p.Id)).ToListAsync(cancellationToken);
 
         var order = new Order
         {
@@ -47,7 +57,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
 
         foreach (var product in products)
         {
-            var productRequest = request.OrderProducts.FirstOrDefault(x => x.ProductId == product.Id);
+            var productRequest = request.OrderProducts.FirstOrDefault(x => x.ProductId == _hashids.Encode(product.Id));
 
             if (productRequest != null)
             {
@@ -97,19 +107,19 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
 
 public class ResultOrderCreate : Result
 {
-    public ResultOrderCreate(bool succeeded, IDictionary<string, string> errors, IList<Product> products) : base(succeeded, errors)
+    public ResultOrderCreate(bool succeeded, IDictionary<string, string> errors, IList<Product>? products) : base(succeeded, errors)
     {
         this.products = products;
     }
 
-    public IList<Product> products { get; set; } = null!;
+    public IList<Product>? products { get; set; }
 
     public static ResultOrderCreate Success(IList<Product> products)
     {
         return new ResultOrderCreate(true, new Dictionary<string, string>(), products);
     }
 
-    public static ResultOrderCreate Failure(IDictionary<string, string> errors)
+    public static new ResultOrderCreate Failure(IDictionary<string, string> errors)
     {
         return new ResultOrderCreate(false, errors, null);
     }

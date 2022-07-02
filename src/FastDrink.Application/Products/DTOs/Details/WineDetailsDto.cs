@@ -5,7 +5,7 @@ namespace FastDrink.Application.Products.DTOs.Details;
 
 public class WineDetailsDto : IMapFrom<WineDetails>
 {
-    public string ProductId { get; set; }
+    public string ProductId { get; set; } = string.Empty;
 
     public float AlcoholContent { get; set; }
 

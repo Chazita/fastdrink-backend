@@ -7,5 +7,5 @@ public class ProductPhotoDto : IMapFrom<ProductPhoto>
 {
     public int Id { get; set; }
 
-    public string PhotoUrl { get; set; }
+    public string PhotoUrl { get; set; } = string.Empty;
 }

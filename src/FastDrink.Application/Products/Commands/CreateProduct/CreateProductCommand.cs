@@ -53,7 +53,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         {
             Name = request.Product.Name,
             Price = request.Product.Price,
-            Volumen = request.Product.Volumen,
+            Volume = request.Product.Volume,
             Stock = request.Product.Stock,
             Discount = null,
             CategoryId = request.Product.CategoryId,
@@ -90,7 +90,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
 public class CreateProductResult : Result
 {
-    public CreateProductResult(bool succeeded, IDictionary<string, string> errors, int productId, BaseType category) : base(succeeded, errors)
+    public CreateProductResult(bool succeeded, IDictionary<string, string> errors, int productId, BaseType? category) : base(succeeded, errors)
     {
         ProductId = productId;
         Category = category;

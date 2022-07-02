@@ -8,15 +8,15 @@ namespace FastDrink.Application.Products.Commands;
 
 public class UpdateDetailsCommand<T> : IRequest<Result> where T : BaseDetails
 {
-    public T Entity { get; set; }
+    public T Entity { get; set; } = null!;
 }
 
-public class UpdateDetailsCommandHanlder<T> : IRequestHandler<UpdateDetailsCommand<T>, Result> where T : BaseDetails
+public class UpdateDetailsCommandHandler<T> : IRequestHandler<UpdateDetailsCommand<T>, Result> where T : BaseDetails
 {
     private readonly IApplicationDbContext _context;
     private readonly DbSet<T> _set;
 
-    public UpdateDetailsCommandHanlder(IApplicationDbContext context)
+    public UpdateDetailsCommandHandler(IApplicationDbContext context)
     {
         _context = context;
         _set = _context.GetDbSetDetails<T>();

@@ -8,7 +8,7 @@ namespace FastDrink.Application.BaseTypes.Commands;
 
 public class CreateBaseTypeCommand<T> : IRequest<Result> where T : BaseType
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 }
 
 public class CreateBaseTypeCommandHandler<T> : IRequestHandler<CreateBaseTypeCommand<T>, Result> where T : BaseType
@@ -37,7 +37,7 @@ public class CreateBaseTypeCommandHandler<T> : IRequestHandler<CreateBaseTypeCom
 
         T? entity = Activator.CreateInstance(typeof(T)) as T;
 
-        entity.Name = nameLower;
+        entity!.Name = nameLower;
 
         await _set.AddAsync(entity, cancellationToken);
 

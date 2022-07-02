@@ -12,5 +12,5 @@ public class EnergyDrinkDetails : BaseDetails
     public bool Dietetics { get; set; }
 
     [MaxLength(50)]
-    public string Flavor { get; set; }
+    public string Flavor { get; set; } = string.Empty;
 }

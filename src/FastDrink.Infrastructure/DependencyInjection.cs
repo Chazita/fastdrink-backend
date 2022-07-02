@@ -15,7 +15,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        if (configuration.GetSection("AddProduct").Value != null && bool.Parse(configuration.GetSection("AddProduct").Value))
+        if (configuration.GetSection("Test").Exists() && bool.Parse(configuration.GetSection("Test").Value) == true)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {

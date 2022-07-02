@@ -5,12 +5,6 @@ namespace FastDrink.Application.Products.DTOs.Details;
 
 public class AlcoholDetailsDto : IMapFrom<AlcoholDetails>
 {
-    public string ProductId { get; set; }
+    public string ProductId { get; set; } = string.Empty;
     public float AlcoholContent { get; set; }
-
-    //public void Mapping(Profile profile)
-    //{
-    //    profile.CreateMap<AlcoholDetails, AlcoholDetailsDto>()
-    //        .ForMember(d => d.ProductId, opt => opt.MapFrom(s => s.ProductId.ToString()));
-    //}
 }

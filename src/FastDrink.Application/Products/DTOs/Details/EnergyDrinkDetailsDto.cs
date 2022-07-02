@@ -5,7 +5,7 @@ namespace FastDrink.Application.Products.DTOs.Details;
 
 public class EnergyDrinkDetailsDto : IMapFrom<EnergyDrinkDetails>
 {
-    public string ProductId { get; set; }
+    public string ProductId { get; set; } = string.Empty;
 
     public bool NonAlcoholic { get; set; }
 
@@ -13,5 +13,5 @@ public class EnergyDrinkDetailsDto : IMapFrom<EnergyDrinkDetails>
 
     public bool Dietetics { get; set; }
 
-    public string Flavor { get; set; }
+    public string Flavor { get; set; } = string.Empty;
 }

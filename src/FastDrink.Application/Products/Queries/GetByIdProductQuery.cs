@@ -54,7 +54,7 @@ public class ResultProduct : Result
     {
         return new ResultProduct(true, new Dictionary<string, string>(), product);
     }
-    public static ResultProduct Failure(IDictionary<string, string> errors)
+    public static new ResultProduct Failure(IDictionary<string, string> errors)
     {
         return new ResultProduct(false, errors, null);
     }

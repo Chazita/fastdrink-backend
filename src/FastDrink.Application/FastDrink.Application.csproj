@@ -24,8 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Auth\DTOs\" />
     <Folder Include="BaseTypes\DTOs\" />
-    <Folder Include="Orders\Queries\" />
+    <Folder Include="Users\Commands\" />
+    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
 </Project>

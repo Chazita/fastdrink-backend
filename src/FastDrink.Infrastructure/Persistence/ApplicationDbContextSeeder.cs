@@ -17,10 +17,12 @@ public static class ApplicationDbContextSeeder
                 var json = r.ReadToEnd();
 
                 var roles = JsonSerializer.Deserialize<List<Role>>(json);
-
-                foreach (var role in roles)
+                if (roles != null)
                 {
-                    context.Role.Add(role);
+                    foreach (var role in roles)
+                    {
+                        context.Role.Add(role);
+                    }
                 }
             }
 
@@ -74,10 +76,12 @@ public static class ApplicationDbContextSeeder
                 var json = r.ReadToEnd();
 
                 var categories = JsonSerializer.Deserialize<List<Category>>(json);
-
-                foreach (var category in categories)
+                if (categories != null)
                 {
-                    context.Category.Add(category);
+                    foreach (var category in categories)
+                    {
+                        context.Category.Add(category);
+                    }
                 }
             }
 
@@ -94,10 +98,12 @@ public static class ApplicationDbContextSeeder
                 var json = r.ReadToEnd();
 
                 var containers = JsonSerializer.Deserialize<List<Container>>(json);
-
-                foreach (var container in containers)
+                if (containers != null)
                 {
-                    context.Container.Add(container);
+                    foreach (var container in containers)
+                    {
+                        context.Container.Add(container);
+                    }
                 }
             }
 
@@ -114,10 +120,12 @@ public static class ApplicationDbContextSeeder
                 var json = r.ReadToEnd();
 
                 var brands = JsonSerializer.Deserialize<List<Brand>>(json);
-
-                foreach (var brand in brands)
+                if (brands != null)
                 {
-                    context.Brands.Add(brand);
+                    foreach (var brand in brands)
+                    {
+                        context.Brands.Add(brand);
+                    }
                 }
             }
 
@@ -136,7 +144,7 @@ public static class ApplicationDbContextSeeder
 
             var products = JsonSerializer.Deserialize<List<Product>>(json);
 
-            foreach (var product in products)
+            foreach (var product in products!)
             {
                 product.Created = DateTime.Now;
                 product.LastModified = DateTime.Now;
@@ -158,46 +166,46 @@ public static class ApplicationDbContextSeeder
 
             products = JsonSerializer.Deserialize<List<Product>>(json);
 
-            foreach (var product in products)
+            foreach (var product in products!)
             {
                 switch (product.CategoryId)
                 {
                     case 1:
-                        context.BeerDetails.Add(product.BeerDetails);
+                        context.BeerDetails.Add(product.BeerDetails!);
                         break;
 
                     case 2:
-                        context.AlcoholDetails.Add(product.AlcoholDetails);
+                        context.AlcoholDetails.Add(product.AlcoholDetails!);
                         break;
 
                     case 3:
-                        context.EnergyDrinkDetails.Add(product.EnergyDrinkDetails);
+                        context.EnergyDrinkDetails.Add(product.EnergyDrinkDetails!);
                         break;
 
                     case 4:
-                        context.SodaDetails.Add(product.SodaDetails);
+                        context.SodaDetails.Add(product.SodaDetails!);
                         break;
 
                     case 5:
-                        context.WaterDetails.Add(product.WaterDetails);
+                        context.WaterDetails.Add(product.WaterDetails!);
                         break;
 
                     case 6:
-                        context.WineDetails.Add(product.WineDetails);
+                        context.WineDetails.Add(product.WineDetails!);
                         break;
 
                     case 7:
-                        context.FlavorDetails.Add(product.FlavorDetails);
+                        context.FlavorDetails.Add(product.FlavorDetails!);
                         break;
 
                     case 8:
-                        context.FlavorDetails.Add(product.FlavorDetails);
+                        context.FlavorDetails.Add(product.FlavorDetails!);
                         break;
                     default:
                         break;
                 }
 
-                foreach (var photo in product.Photos)
+                foreach (var photo in product.Photos!)
                 {
                     context.ProductPhoto.Add(photo);
                 }

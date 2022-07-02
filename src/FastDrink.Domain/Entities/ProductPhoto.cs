@@ -12,9 +12,9 @@ public class ProductPhoto
     public Product? Product { get; set; }
 
     [Required, MaxLength(200)]
-    public string PhotoUrl { get; set; }
+    public string PhotoUrl { get; set; } = string.Empty;
 
     [Required, MaxLength(100)]
-    public string PhotoId { get; set; }
+    public string PhotoId { get; set; } = string.Empty;
 
 }
