@@ -10,11 +10,11 @@ public class DeleteProductCommand : IRequest<Result>
     public int Id { get; set; }
 }
 
-public class DeleteProductCommandHanlder : IRequestHandler<DeleteProductCommand, Result>
+public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Result>
 {
     private readonly IApplicationDbContext _context;
 
-    public DeleteProductCommandHanlder(IApplicationDbContext context)
+    public DeleteProductCommandHandler(IApplicationDbContext context)
     {
         _context = context;
     }
