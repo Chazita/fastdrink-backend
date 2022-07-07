@@ -24,7 +24,7 @@ public class HardDeleteProductCommandHandler : IRequestHandler<HardDeleteProduct
 
     public async Task<Result> Handle(HardDeleteProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await _context.Products.Include(x => x.Photos).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var product = await _context.Products.Include(x => x.Photo).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (product == null)
         {
@@ -36,17 +36,10 @@ public class HardDeleteProductCommandHandler : IRequestHandler<HardDeleteProduct
             return Result.Failure(errors);
         }
 
-        List<string> photosIds = new();
 
-
-        if (product.Photos != null)
+        if (product.Photo != null)
         {
-            foreach (var photo in product.Photos)
-            {
-                photosIds.Add(photo.PhotoId);
-            }
-
-            await _cloudinaryService.DeletePhotos(photosIds);
+            await _cloudinaryService.DeletePhoto(product.Photo.PhotoId);
         }
 
         _context.Products.Remove(product);

@@ -150,7 +150,7 @@ public static class ApplicationDbContextSeeder
                 product.LastModified = DateTime.Now;
                 product.LastModifiedBy = "admin@admin.com";
 
-                product.Photos = null;
+                product.Photo = null;
                 product.AlcoholDetails = null;
                 product.BeerDetails = null;
                 product.EnergyDrinkDetails = null;
@@ -204,11 +204,7 @@ public static class ApplicationDbContextSeeder
                     default:
                         break;
                 }
-
-                foreach (var photo in product.Photos!)
-                {
-                    context.ProductPhoto.Add(photo);
-                }
+                context.ProductPhoto.Add(product.Photo!);
             }
 
             await context.SaveChangesAsync();

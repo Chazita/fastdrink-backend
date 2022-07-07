@@ -18,5 +18,5 @@ public class CreateProductRequest
 
     public int BrandId { get; set; }
 
-    public IFormFileCollection Photos { get; set; } = null!;
+    public IFormFile Photo { get; set; } = null!;
 }

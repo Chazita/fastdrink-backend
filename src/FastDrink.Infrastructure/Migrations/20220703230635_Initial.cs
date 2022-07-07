@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FastDrink.Infrastructure.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,10 +15,10 @@ namespace FastDrink.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Province = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Province = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,7 +85,7 @@ namespace FastDrink.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
-                    Volumen = table.Column<float>(type: "real", nullable: false),
+                    Volume = table.Column<float>(type: "real", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     Discount = table.Column<float>(type: "real", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
@@ -175,7 +175,7 @@ namespace FastDrink.Infrastructure.Migrations
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     AlcoholContent = table.Column<float>(type: "real", nullable: false),
-                    Style = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Style = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,7 +196,7 @@ namespace FastDrink.Infrastructure.Migrations
                     NonAlcoholic = table.Column<bool>(type: "bit", nullable: false),
                     Energizing = table.Column<bool>(type: "bit", nullable: false),
                     Dietetics = table.Column<bool>(type: "bit", nullable: false),
-                    Flavor = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Flavor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,7 +214,7 @@ namespace FastDrink.Infrastructure.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Flavor = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Flavor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,7 +253,7 @@ namespace FastDrink.Infrastructure.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Flavor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Flavor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Dietetics = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -292,8 +292,8 @@ namespace FastDrink.Infrastructure.Migrations
                 {
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     AlcoholContent = table.Column<float>(type: "real", nullable: false),
-                    Variety = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Style = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Variety = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Style = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -315,7 +315,9 @@ namespace FastDrink.Infrastructure.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     TotalPrice = table.Column<float>(type: "real", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true)
+                    OrderStatus = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -326,11 +328,6 @@ namespace FastDrink.Infrastructure.Migrations
                         principalTable: "Address",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Order_Order_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Order",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Order_User_UserId",
                         column: x => x.UserId,
@@ -345,19 +342,13 @@ namespace FastDrink.Infrastructure.Migrations
                 {
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Discount = table.Column<float>(type: "real", nullable: false),
+                    Discount = table.Column<float>(type: "real", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<float>(type: "real", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true)
+                    Price = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderProduct", x => new { x.OrderId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_OrderProduct_Address_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_OrderProduct_Order_OrderId",
                         column: x => x.OrderId,
@@ -378,19 +369,9 @@ namespace FastDrink.Infrastructure.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_OrderId",
-                table: "Order",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Order_UserId",
                 table: "Order",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderProduct_AddressId",
-                table: "OrderProduct",
-                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderProduct_ProductId",
@@ -400,7 +381,8 @@ namespace FastDrink.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPhoto_ProductId",
                 table: "ProductPhoto",
-                column: "ProductId");
+                column: "ProductId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandId",

@@ -13,13 +13,13 @@ public class ProductWithDetailsDto : IMapFrom<Product>
 
     public float Price { get; set; }
 
-    public float Volumen { get; set; }
+    public float Volume { get; set; }
 
     public int Stock { get; set; }
 
     public float? Discount { get; set; }
 
-    public ICollection<ProductPhotoDto>? Photos { get; set; }
+    public ProductPhotoDto? Photo { get; set; }
 
     public BaseType? Category { get; set; }
 

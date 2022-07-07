@@ -21,7 +21,7 @@ public class Product : AuditableEntity
 
     public float? Discount { get; set; }
 
-    public ICollection<ProductPhoto>? Photos { get; set; }
+    public ProductPhoto? Photo { get; set; }
 
     public ICollection<OrderProduct>? Orders { get; set; }
 

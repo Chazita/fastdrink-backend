@@ -18,54 +18,37 @@ public class CloudinaryService : ICloudinaryService
             cloudinarySettings.ApiSecret);
     }
 
-    public async Task<DeletionResult[]> DeletePhotos(List<string> photosIds)
+    public async Task<DeletionResult> DeletePhoto(string photoId)
     {
         var cloudinary = new Cloudinary(_account);
-        List<Task<DeletionResult>> tasks = new();
 
-        foreach (var photoId in photosIds)
+        DeletionResult deletionResult = new();
+
+        if (photoId != "noexist")
         {
-            if (photoId != "noexist")
-            {
-                var deletionParams = new DeletionParams(photoId);
+            var deletionParams = new DeletionParams(photoId);
 
-                tasks.Add(cloudinary.DestroyAsync(deletionParams));
-            }
+            deletionResult = await cloudinary.DestroyAsync(deletionParams);
         }
 
-        var deletionResults = await Task.WhenAll(tasks);
-
-        return deletionResults;
-
-
+        return deletionResult;
     }
 
-    public async Task<ImageUploadResult[]> UploadPhotos(IFormFileCollection photos)
+    public async Task<ImageUploadResult> UploadPhoto(IFormFile photo)
     {
-        List<Task<ImageUploadResult>> tasks = new();
-        List<Stream> streamList = new();
-
         var cloudinary = new Cloudinary(_account);
 
-        foreach (var photo in photos)
+        var stream = photo.OpenReadStream();
+
+        var uploadPhoto = new ImageUploadParams
         {
-            var stream = photo.OpenReadStream();
-            streamList.Add(stream);
-            var uploadPhoto = new ImageUploadParams
-            {
-                File = new FileDescription(photo.FileName, stream),
-            };
+            File = new FileDescription(photo.FileName, stream),
+        };
 
-            tasks.Add(cloudinary.UploadAsync(uploadPhoto));
-        }
+        var imageUpload = await cloudinary.UploadAsync(uploadPhoto);
 
-        var imageUploads = await Task.WhenAll(tasks);
+        stream.Close();
 
-        foreach (var stream in streamList)
-        {
-            stream.Close();
-        }
-
-        return imageUploads;
+        return imageUpload;
     }
 }

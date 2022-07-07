@@ -68,19 +68,16 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        var imagesResult = await _cloudinaryService.UploadPhotos(request.Product.Photos);
+        var imagesResult = await _cloudinaryService.UploadPhoto(request.Product.Photo);
 
-        foreach (var imagen in imagesResult)
+        var productPhoto = new ProductPhoto
         {
-            var productPhoto = new ProductPhoto
-            {
-                ProductId = entityEntry.Entity.Id,
-                PhotoId = imagen.PublicId,
-                PhotoUrl = imagen.SecureUrl.ToString(),
-            };
+            ProductId = entityEntry.Entity.Id,
+            PhotoId = imagesResult.PublicId,
+            PhotoUrl = imagesResult.SecureUrl.ToString(),
+        };
 
-            _context.ProductPhoto.Add(productPhoto);
-        }
+        await _context.ProductPhoto.AddAsync(productPhoto, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 

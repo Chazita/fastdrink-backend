@@ -189,6 +189,17 @@ namespace FastDrink.Infrastructure.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.Property<float>("TotalPrice")
                         .HasColumnType("real");
 
@@ -309,7 +320,8 @@ namespace FastDrink.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("ProductPhoto");
                 });
@@ -546,8 +558,8 @@ namespace FastDrink.Infrastructure.Migrations
             modelBuilder.Entity("FastDrink.Domain.Entities.ProductPhoto", b =>
                 {
                     b.HasOne("FastDrink.Domain.Entities.Product", "Product")
-                        .WithMany("Photos")
-                        .HasForeignKey("ProductId")
+                        .WithOne("Photo")
+                        .HasForeignKey("FastDrink.Domain.Entities.ProductPhoto", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -635,7 +647,7 @@ namespace FastDrink.Infrastructure.Migrations
 
                     b.Navigation("Orders");
 
-                    b.Navigation("Photos");
+                    b.Navigation("Photo");
 
                     b.Navigation("SodaDetails");
 
