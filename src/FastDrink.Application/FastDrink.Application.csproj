@@ -26,7 +26,6 @@
   <ItemGroup>
     <Folder Include="Auth\DTOs\" />
     <Folder Include="BaseTypes\DTOs\" />
-    <Folder Include="Users\Commands\" />
     <Folder Include="Users\Queries\" />
   </ItemGroup>
 
