@@ -12,5 +12,11 @@ public class OrderDto : IMapFrom<Order>
 
     public AddressDto Address { get; set; } = null!;
 
+    public string OrderStatus { get; set; } = "";
+
     public IList<OrderProductDto> Products { get; set; } = null!;
+
+    public DateTime Created { get; set; }
+
+    public DateTime? LastModified { get; set; }
 }

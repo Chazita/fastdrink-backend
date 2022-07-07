@@ -2,6 +2,7 @@
 using FastDrink.Application.Common.Models;
 using FastDrink.Application.Orders.DTOs;
 using FastDrink.Domain.Entities;
+using FastDrink.Domain.Enums;
 using HashidsNet;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -90,6 +91,10 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
         }
 
         orderEntry.Entity.TotalPrice = totalPrice;
+        orderEntry.Entity.Created = DateTime.Now;
+        orderEntry.Entity.LastModified = DateTime.Now;
+        orderEntry.Entity.OrderStatus = OrderStatus.Pending;
+
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return ResultOrderCreate.Success(products);
