@@ -7,7 +7,7 @@ namespace FastDrink.Application.Orders.DTOs;
 
 public class OrderAdminDto : IMapFrom<Order>
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     public float TotalPrice { get; set; }
 
