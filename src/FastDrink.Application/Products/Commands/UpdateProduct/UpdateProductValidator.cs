@@ -23,8 +23,7 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
             .NotEmpty();
 
         RuleFor(x => x.Stock)
-            .GreaterThanOrEqualTo(0)
-            .NotEmpty();
+            .GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.CategoryId)
             .GreaterThanOrEqualTo(1)
