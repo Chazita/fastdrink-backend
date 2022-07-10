@@ -20,6 +20,7 @@ You are warned that this project problably be not the best to put in production 
 - [MediatR](https://github.com/jbogard/MediatR)
 - [AutoMapper](https://automapper.org/)
 - [Cloudinary](https://cloudinary.com/)
+- [HashidsNet](https://github.com/ullmark/hashids.net)
 - [XUnit](https://xunit.net/)
 
 ## Feautures

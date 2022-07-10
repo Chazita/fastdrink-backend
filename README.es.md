@@ -20,6 +20,7 @@ Estas avisado que este project problamente no sea el mejor para poner en producc
 - [MediatR](https://github.com/jbogard/MediatR)
 - [AutoMapper](https://automapper.org/)
 - [Cloudinary](https://cloudinary.com/)
+- [HashidsNet](https://github.com/ullmark/hashids.net)
 - [XUnit](https://xunit.net/)
 
 ## Funciones
