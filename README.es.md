@@ -22,12 +22,13 @@ Estas avisado que este project problamente no sea el mejor para poner en producc
 - [Cloudinary](https://cloudinary.com/)
 - [XUnit](https://xunit.net/)
 
-## Funcionalidades
+## Funciones
 
-- [x] Authenticacion basica con cookies.
-- [x] CRUD basico.
-- [x] Validaciones.
-- [ ] Query para productos.
-- [ ] Query productos por Type(Brand, Category, Container).
-- [x] Rutas authorizadas.
-- [ ] Integration Test.
+- [x] Auth.
+- [x] CRUD.
+- [x] Validación.
+- [x] Query para productos.
+- [x] Query productos por Type(Brand, Category, Container).
+- [x] Añadir, ordenar and modificar(estado) de orden.
+- [x] Cambiar datos del usuario user.
+- [ ] Test integral.

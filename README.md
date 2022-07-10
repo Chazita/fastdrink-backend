@@ -24,10 +24,11 @@ You are warned that this project problably be not the best to put in production 
 
 ## Feautures
 
-- [x] Basic Auth with cookies.
-- [x] Basic CRUD.
+- [x] Auth.
+- [x] CRUD.
 - [x] Validation.
-- [ ] Query for Products.
-- [ ] Query products by Type(Brand, Categories, Container).
-- [x] Authorize routes.
+- [x] Query for Products.
+- [x] Query products by Type(Brand, Categories, Container).
+- [x] Add, sort and modify(status) orders.
+- [x] Change data of the user.
 - [ ] Integration Test.
