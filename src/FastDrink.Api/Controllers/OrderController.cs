@@ -47,6 +47,34 @@ public class OrderController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut("modify-status")]
+    [Authorize(Policy = "MustBeAdmin")]
+    public async Task<ActionResult> ModifyStatus([FromBody] UpdateOrderStatusCommand command)
+    {
+        var result = await _mediator.Send(command);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(result);
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("modify-status")]
+    [Authorize(Policy = "MustBeUser")]
+    public async Task<ActionResult> DeleteOrder([FromBody] CancelOrderCommand command)
+    {
+        var result = await _mediator.Send(command);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(result);
+        }
+
+        return NoContent();
+    }
+
     [HttpGet("my-orders")]
     [Authorize(Policy = "MustBeUser")]
     public async Task<ActionResult> GetMyOrders([FromQuery] int? PageNumber)
@@ -76,7 +104,9 @@ public class OrderController : ControllerBase
 
         foreach (var order in orders.Items)
         {
+            order.Id = _hashids.Encode(int.Parse(order.Id));
             order.User.Id = _hashids.Encode(int.Parse(order.User.Id));
+            order.Address.Id = _hashids.Encode(int.Parse(order.Address.Id));
         }
 
         return Ok(orders);
