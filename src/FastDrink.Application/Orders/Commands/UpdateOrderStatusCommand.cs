@@ -51,7 +51,7 @@ public class UpdateOrderStatusCommandHandler : IRequestHandler<UpdateOrderStatus
 
         order.OrderStatusString = request.OrderStatus;
 
-        order.LastModified = DateTime.Now;
+        order.LastModified = DateTime.UtcNow;
 
         await _context.SaveChangesAsync(cancellationToken);
 

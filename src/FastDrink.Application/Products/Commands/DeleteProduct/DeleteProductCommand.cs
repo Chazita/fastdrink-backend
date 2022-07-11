@@ -31,7 +31,7 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand,
             return Result.Failure(errors);
         }
 
-        product.DeletedAt = DateTime.Now;
+        product.DeletedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync(cancellationToken);
 

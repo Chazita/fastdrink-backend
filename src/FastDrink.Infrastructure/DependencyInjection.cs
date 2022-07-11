@@ -17,21 +17,22 @@ public static class DependencyInjection
     {
         if (configuration.GetSection("Test").Exists() && bool.Parse(configuration.GetSection("Test").Value) == true)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseInMemoryDatabase("TestDatabase");
-            });
+            services.AddDbContext<ApplicationDbContext>(
+                options =>
+                {
+                    options.UseInMemoryDatabase("TestDatabase");
+                });
         }
         else
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
-            });
+            services.AddDbContext<ApplicationDbContext>(
+                options =>
+                {
+                    options.UseNpgsql(
+                        configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+                });
         }
-
 
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
@@ -39,41 +40,49 @@ public static class DependencyInjection
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ICloudinaryService, CloudinaryService>();
 
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(options =>
-        {
-            options.SaveToken = true;
-
-            options.TokenValidationParameters = new TokenValidationParameters
+        services.AddAuthentication(
+            options =>
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JwtSettings:Secret"])),
-                RequireExpirationTime = false,
-                ValidateAudience = true,
-                ValidAudience = "https://localhost:7011",
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(
+                options =>
+                {
+                    options.SaveToken = true;
 
-                ValidateIssuer = true,
-                ValidIssuer = "https://localhost:7011",
-            };
-        });
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["JwtSettings:Secret"])),
+                        RequireExpirationTime = false,
+                        ValidateAudience = true,
+                        ValidAudience = "https://localhost:7011",
 
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("MustBeAdmin", policy =>
+                        ValidateIssuer = true,
+                        ValidIssuer = "https://localhost:7011",
+                    };
+                });
+
+        services.AddAuthorization(
+            options =>
             {
-                policy.RequireClaim(ClaimTypes.Role, "admin");
+                options.AddPolicy(
+                    "MustBeAdmin",
+                    policy =>
+                    {
+                        policy.RequireClaim(ClaimTypes.Role, "admin");
+                    });
+
+                options.AddPolicy(
+                    "MustBeUser",
+                    policy =>
+                    {
+                        policy.RequireClaim(ClaimTypes.Role, "admin", "customer");
+                    });
             });
-
-            options.AddPolicy("MustBeUser", policy =>
-            {
-                policy.RequireClaim(ClaimTypes.Role, "admin", "customer");
-            });
-        });
 
         return services;
     }

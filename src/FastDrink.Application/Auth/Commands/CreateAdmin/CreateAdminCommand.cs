@@ -53,8 +53,8 @@ public class CreateAdminCommandHandler : IRequestHandler<CreateAdminCommand, Res
             Salt = userSalt,
             Password = _authService.HashPassword(request.Password, userSalt),
             AddressId = null,
-            Created = DateTime.Now,
-            LastModified = DateTime.Now,
+            Created = DateTime.UtcNow,
+            LastModified = DateTime.UtcNow,
             RoleId = role.Id
         };
 

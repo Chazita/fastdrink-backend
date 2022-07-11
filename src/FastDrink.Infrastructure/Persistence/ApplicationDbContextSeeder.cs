@@ -44,8 +44,8 @@ public static class ApplicationDbContextSeeder
                 RoleId = adminRole.Id,
                 Salt = adminSalt,
                 Password = authService.HashPassword("admin123", adminSalt),
-                Created = DateTime.Now,
-                LastModified = DateTime.Now,
+                Created = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
                 AddressId = null,
             });
 
@@ -58,8 +58,8 @@ public static class ApplicationDbContextSeeder
                 RoleId = customerRole.Id,
                 Salt = customerSalt,
                 Password = authService.HashPassword("customer123", customerSalt),
-                Created = DateTime.Now,
-                LastModified = DateTime.Now,
+                Created = DateTime.UtcNow,
+                LastModified = DateTime.UtcNow,
                 AddressId = null,
             });
 
@@ -146,8 +146,8 @@ public static class ApplicationDbContextSeeder
 
             foreach (var product in products!)
             {
-                product.Created = DateTime.Now;
-                product.LastModified = DateTime.Now;
+                product.Created = DateTime.UtcNow;
+                product.LastModified = DateTime.UtcNow;
                 product.LastModifiedBy = "admin@admin.com";
 
                 product.Photo = null;

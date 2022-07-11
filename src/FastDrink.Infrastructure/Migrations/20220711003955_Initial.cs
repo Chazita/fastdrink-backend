@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -13,12 +13,12 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "Address",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Province = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Province = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    City = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Code = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,9 +29,9 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "Brands",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,9 +42,9 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "Category",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,9 +55,9 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "Container",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,9 +68,9 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "Role",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,20 +81,20 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
                     Volume = table.Column<float>(type: "real", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false),
+                    Stock = table.Column<int>(type: "integer", nullable: false),
                     Discount = table.Column<float>(type: "real", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ContainerId = table.Column<int>(type: "int", nullable: false),
-                    BrandId = table.Column<int>(type: "int", nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    CategoryId = table.Column<int>(type: "integer", nullable: false),
+                    ContainerId = table.Column<int>(type: "integer", nullable: false),
+                    BrandId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -123,17 +123,17 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Salt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Email = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    FirstName = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
+                    Password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Salt = table.Column<byte[]>(type: "bytea", nullable: false),
+                    RoleId = table.Column<int>(type: "integer", nullable: false),
+                    AddressId = table.Column<int>(type: "integer", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -155,7 +155,7 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "AlcoholDetails",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
                     AlcoholContent = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
@@ -173,9 +173,9 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "BeerDetails",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
                     AlcoholContent = table.Column<float>(type: "real", nullable: false),
-                    Style = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Style = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,11 +192,11 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "EnergyDrinkDetails",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    NonAlcoholic = table.Column<bool>(type: "bit", nullable: false),
-                    Energizing = table.Column<bool>(type: "bit", nullable: false),
-                    Dietetics = table.Column<bool>(type: "bit", nullable: false),
-                    Flavor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    NonAlcoholic = table.Column<bool>(type: "boolean", nullable: false),
+                    Energizing = table.Column<bool>(type: "boolean", nullable: false),
+                    Dietetics = table.Column<bool>(type: "boolean", nullable: false),
+                    Flavor = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -213,8 +213,8 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "FlavorDetails",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Flavor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    Flavor = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,11 +231,11 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "ProductPhoto",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    PhotoUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    PhotoId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    PhotoUrl = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    PhotoId = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -252,9 +252,9 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "SodaDetails",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Flavor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Dietetics = table.Column<bool>(type: "bit", nullable: false)
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    Flavor = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Dietetics = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -271,9 +271,9 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "WaterDetails",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    LowInSodium = table.Column<bool>(type: "bit", nullable: false),
-                    Gasified = table.Column<bool>(type: "bit", nullable: false)
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    LowInSodium = table.Column<bool>(type: "boolean", nullable: false),
+                    Gasified = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -290,10 +290,10 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "WineDetails",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
                     AlcoholContent = table.Column<float>(type: "real", nullable: false),
-                    Variety = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Style = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Variety = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Style = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -310,14 +310,14 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "Order",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     TotalPrice = table.Column<float>(type: "real", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false),
-                    OrderStatus = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    AddressId = table.Column<int>(type: "integer", nullable: false),
+                    OrderStatus = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -340,10 +340,10 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "OrderProduct",
                 columns: table => new
                 {
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
                     Discount = table.Column<float>(type: "real", nullable: true),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
@@ -403,8 +403,7 @@ namespace FastDrink.Infrastructure.Migrations
                 name: "IX_User_AddressId",
                 table: "User",
                 column: "AddressId",
-                unique: true,
-                filter: "[AddressId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_RoleId",

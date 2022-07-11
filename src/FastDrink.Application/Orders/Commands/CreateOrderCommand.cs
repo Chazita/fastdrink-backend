@@ -91,8 +91,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
         }
 
         orderEntry.Entity.TotalPrice = totalPrice;
-        orderEntry.Entity.Created = DateTime.Now;
-        orderEntry.Entity.LastModified = DateTime.Now;
+        orderEntry.Entity.Created = DateTime.UtcNow;
+        orderEntry.Entity.LastModified = DateTime.UtcNow;
         orderEntry.Entity.OrderStatus = OrderStatus.Pending;
 
         await _dbContext.SaveChangesAsync(cancellationToken);

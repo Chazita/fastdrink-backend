@@ -59,8 +59,8 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             CategoryId = request.Product.CategoryId,
             ContainerId = request.Product.ContainerId,
             BrandId = request.Product.BrandId,
-            Created = DateTime.Now,
-            LastModified = DateTime.Now,
+            Created = DateTime.UtcNow,
+            LastModified = DateTime.UtcNow,
             LastModifiedBy = request.EmailCreator,
         };
 

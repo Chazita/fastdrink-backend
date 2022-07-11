@@ -20,10 +20,7 @@ public class Program
             {
                 var context = services.GetRequiredService<ApplicationDbContext>();
 
-                if (context.Database.IsSqlServer())
-                {
-                    context.Database.Migrate();
-                }
+                context.Database.Migrate();
 
                 var authService = services.GetRequiredService<IAuthService>();
 
