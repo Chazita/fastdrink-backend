@@ -11,7 +11,7 @@ namespace FastDrink.Application.Products.Queries.GetAllProducts;
 public class GetAllProductsAdminQuery : IRequest<PaginatedList<ProductDto>>
 {
     public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
+    public int PageSize { get; set; } = 15;
 }
 
 public class GetAllProductsAdminQueryHandler : IRequestHandler<GetAllProductsAdminQuery, PaginatedList<ProductDto>>

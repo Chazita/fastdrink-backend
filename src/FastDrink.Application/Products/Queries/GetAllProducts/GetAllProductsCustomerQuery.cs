@@ -12,7 +12,7 @@ namespace FastDrink.Application.Products.Queries.GetAllProducts;
 public class GetAllProductsCustomerQuery : IRequest<PaginatedList<ProductDto>>
 {
     public int PageNumber { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
+    public int PageSize { get; set; } = 15;
     public string? OrderBy { get; set; }
     public string? Brand { get; set; }
     public string? Search { get; set; }
@@ -56,6 +56,7 @@ public class GetAllProductsCustomerQueryHandler : IRequestHandler<GetAllProducts
         {
             case "more_recent":
                 return await products
+                    .OrderByDescending(x => x.Created)
                     .Where(x => x.DeletedAt == null)
                     .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.PageNumber, request.PageSize);
