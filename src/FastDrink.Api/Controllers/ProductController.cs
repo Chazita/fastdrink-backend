@@ -160,5 +160,39 @@ public class ProductController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("new-products")]
+    public async Task<ActionResult<IList<ProductDto>>> GetNewProducts()
+    {
+        var products = await _mediator.Send(new GetNewProductsQuery());
+
+        products = products
+            .Select(
+            x =>
+            {
+                x.Id = _hashids.Encode(int.Parse(x.Id));
+                return x;
+            })
+            .ToList();
+
+        return Ok(products);
+    }
+
+    [HttpGet("new-discounts-products")]
+    public async Task<ActionResult<IList<ProductDto>>> GetNewDiscountsProducts()
+    {
+        var products = await _mediator.Send(new GetNewProductsDiscountQuery());
+
+        products = products
+            .Select(
+            x =>
+            {
+                x.Id = _hashids.Encode(int.Parse(x.Id));
+                return x;
+            })
+            .ToList();
+
+        return Ok(products);
+    }
 }
 
